@@ -4,6 +4,7 @@ import com.shopper.android.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -114,7 +115,19 @@ public class Shopper extends Activity {
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
-		findViewById(R.id.dummy_button).setOnTouchListener(
+		View loginButton = findViewById(R.id.dummy_button);
+		loginButton.setOnTouchListener(
+				mDelayHideTouchListener);
+		final Intent intent = new Intent(Shopper.this, LoginActivity.class);				
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Shopper.this.startActivity(intent);
+				
+			}
+		});
+		findViewById(R.id.dummy_button2).setOnTouchListener(
 				mDelayHideTouchListener);
 	}
 
