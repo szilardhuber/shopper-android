@@ -1,5 +1,6 @@
 package com.shopper.android;
 
+import com.shopper.android.R;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;

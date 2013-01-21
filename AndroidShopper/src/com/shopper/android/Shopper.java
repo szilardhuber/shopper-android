@@ -1,7 +1,6 @@
 package com.shopper.android;
 
-import com.shopper.android.util.SystemUiHider;
-
+import com.shopper.android.R;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.shopper.android.util.SystemUiHider;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
