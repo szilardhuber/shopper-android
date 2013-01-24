@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bevásárlólista</string>
+    <string name="dummy_content">Magyar tartalom</string>
+    <string name="dummy_button">Bejelentkezés</string>
+    <string name="dummy_button2">Beállítások</string>
+    
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Jelszó</string>
+    <string name="action_sign_in_register">Bejelentkezés / regisztráció</string>
+    <string name="action_sign_in_short">Bejelentkezés</string>
+    <string name="menu_forgot_password">Elfelejtettem a jelszavamat</string>
+    <string name="login_progress_signing_in">Bejelentkezés&#8230;</string>
+    <string name="error_invalid_email">Hibás E-mail cím</string>
+    <string name="error_invalid_password">Túl rövid jelszó</string>
+    <string name="error_incorrect_password">HElytelen jelszó</string>
+    <string name="error_field_required">Ezt a mezőt kötelező kitölteni</string>    
+        
+</resources>
