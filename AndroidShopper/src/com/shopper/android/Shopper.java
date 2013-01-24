@@ -1,15 +1,18 @@
 package com.shopper.android;
 
-import com.shopper.android.R;
+import java.util.Locale;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.shopper.android.util.LocalStorage;
 import com.shopper.android.util.SystemUiHider;
 
 /**
@@ -50,7 +53,7 @@ public class Shopper extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.activity_main);
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
@@ -173,4 +176,5 @@ public class Shopper extends Activity {
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
+	
 }
