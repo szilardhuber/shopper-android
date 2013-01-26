@@ -103,30 +103,32 @@ public class LoginActivity extends Activity {
 		// Store values at the time of the login attempt.
 		mEmail = mEmailView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
+				
 
 		boolean cancel = false;
 		View focusView = null;
+		
+		int loginSuccessCode = SecurityHandler.login(new User(mEmail, mPassword), this);
+		switch (loginSuccessCode) {
+			case SecurityHandler.EMPTY_PASSWORD:
+				mPasswordView.setError(getString(R.string.error_field_required));
+				break;
+			case SecurityHandler.EMPTY_EMAIL:
+				mEmailView.setError(getString(R.string.error_field_required));
+				break;
+			case SecurityHandler.INVALID_EMAIL:
+				mEmailView.setError(getString(R.string.error_invalid_email));
+				break;
+			case SecurityHandler.INVALID_PASSWORD:
+				mPasswordView.setError(getString(R.string.error_invalid_password));
+				break;
 
-		// Check for a valid password.
-		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
-			cancel = true;
-		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
-			cancel = true;
-		}
-
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
-			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
-			cancel = true;
+			case SecurityHandler.FAIL:
+				
+				break;
+	
+			default:
+				break;
 		}
 
 		if (cancel) {
@@ -200,13 +202,7 @@ public class LoginActivity extends Activity {
 				return false;
 			}
 
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
+			
 
 			// TODO: register the new account here.
 			return true;
