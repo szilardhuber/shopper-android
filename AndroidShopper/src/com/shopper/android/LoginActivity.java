@@ -197,6 +197,8 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
+				getIntent().putExtra("SUCCESS", true);
+				setResult(RESULT_OK,getIntent());
 				finish();
 			} else {
 				passwordView

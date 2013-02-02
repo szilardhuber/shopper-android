@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.shopper.android.util.SystemUiHider;
 
@@ -125,7 +126,7 @@ public class Shopper extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Shopper.this.startActivity(intent);
+				Shopper.this.startActivityForResult(intent, 0);
 				
 			}
 		});
@@ -138,11 +139,28 @@ public class Shopper extends Activity {
 			@Override
 			public void onClick(View v) {
 				intent.putExtra(LoginActivity.REGISTER, true);
-				Shopper.this.startActivity(intent);
+				Shopper.this.startActivityForResult(intent, 0);
 			}
 		});
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		if (requestCode == 0) {
+			if (resultCode == RESULT_OK) {
+				boolean success = intent.getBooleanExtra(
+						"SUCCESS",
+						false);
+				TextView content = (TextView)findViewById(R.id.fullscreen_content);
+				if (success) {
+					content.setTag("OK");
+				} else {
+					content.setTag("FAIL");
+				}
+			}
+		}
+	}
+	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
