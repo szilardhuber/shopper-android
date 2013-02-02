@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,26 +20,30 @@ import android.widget.TextView;
  */
 public class LoginActivity extends Activity {
 
+	public static final String REGISTER = "register";
+
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
 
 	private User user;
-
+	
 	// UI references.
 	private EditText emailView;
 	private EditText passwordView;
 	private View loginFormView;
 	private View loginStatusView;
 	private TextView loginStatusMessageView;
-
+	private boolean register;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		register = getIntent().getBooleanExtra(REGISTER, false);
+		System.out.println("register: "+register);
 		setContentView(R.layout.activity_login);
-
+		changeLayout();
 		// Set up the login form.
 		emailView = (EditText) findViewById(R.id.email);
 		if (user != null) {			
@@ -70,6 +75,14 @@ public class LoginActivity extends Activity {
 						attemptLogin();
 					}
 				});
+	}
+
+	private void changeLayout() {
+		if (!register) {
+			return;
+		}
+		Button registerButton = (Button)findViewById(R.id.sign_in_button);
+		registerButton.setText(R.string.action_register);
 	}
 
 	public void attemptLogin() {
@@ -168,8 +181,14 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			int loginSuccessCode = SecurityHandler.login(user, LoginActivity.this);
-			return loginSuccessCode == SecurityHandler.OK;
+			int successCode = -1;
+			if (register) {
+				successCode = SecurityHandler.register(user, LoginActivity.this);
+			} else {
+				successCode = SecurityHandler.login(user, LoginActivity.this);
+			}
+			
+			return successCode == SecurityHandler.OK;
 		}
 
 		@Override

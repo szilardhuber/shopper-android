@@ -115,10 +115,12 @@ public class Shopper extends Activity {
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
-		View loginButton = findViewById(R.id.dummy_button);
+		final Intent intent = new Intent(Shopper.this, LoginActivity.class);
+		
+		View loginButton = findViewById(R.id.login_button);
 		loginButton.setOnTouchListener(
 				mDelayHideTouchListener);
-		final Intent intent = new Intent(Shopper.this, LoginActivity.class);				
+						
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -127,8 +129,18 @@ public class Shopper extends Activity {
 				
 			}
 		});
-		findViewById(R.id.dummy_button2).setOnTouchListener(
+		View registerButton = findViewById(R.id.register_button);
+		registerButton.setOnTouchListener(
 				mDelayHideTouchListener);
+						
+		registerButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				intent.putExtra(LoginActivity.REGISTER, true);
+				Shopper.this.startActivity(intent);
+			}
+		});
 	}
 
 	@Override

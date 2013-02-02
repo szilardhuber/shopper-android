@@ -1,31 +1,37 @@
 package com.shopper.android.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.os.Build;
 
-import com.shopper.android.util.LocalStorage;
+import com.shopper.android.ApplicationModel;
 
 public class ServerRequest {
 	private static final String SERVER_ADDRESS = "https://szilardhuber.appspot.com"; 
-	private static final String LOGIN_URL = "/user/login/api?email=%s&password=%s";
-	private static final String REGISTER_URL = "/User/Register?email=%s&password=%s";
+	private static final String LOGIN_URL = "/User/Login/api";
+	private static final String REGISTER_URL = "/User/Register/api";
 
-	private static ServerResponse send(String url, Context ctx){
+	private static ServerResponse send(String url, List<NameValuePair> nameValuePairs, Context ctx){
 		HttpClient httpclient = new DefaultHttpClient();
 	    HttpResponse response;
 		try {
 			System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
 			HttpPost request = new HttpPost(SERVER_ADDRESS + url);
+			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			addCommonHeaders(request, ctx);
 			response = httpclient.execute(request);			
 			return new ServerResponse(response, ctx);
@@ -52,22 +58,28 @@ public class ServerRequest {
 	}
 
 	public static ServerResponse loginRequest(String email, String password, Context ctx) {
-		return send(String.format(LOGIN_URL, new Object[]{email, password}),ctx);
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	    nameValuePairs.add(new BasicNameValuePair("email", email));
+	    nameValuePairs.add(new BasicNameValuePair("password", password));
+		return send(LOGIN_URL,nameValuePairs,ctx);
 	}
 	
 	public static ServerResponse registerRequest(String email, String password, Context ctx) {
-		return send(String.format(REGISTER_URL, new Object[]{email, password}),ctx);
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	    nameValuePairs.add(new BasicNameValuePair("email", email));
+	    nameValuePairs.add(new BasicNameValuePair("password", password));
+		return send(REGISTER_URL,nameValuePairs,ctx);
 	}
 	
 	private static Map<String, String> getCommonHeaders(Context ctx){
 		Map<String, String> ret = new HashMap<String, String>();
 		ret.put(Constants.HEADER_SHOPPER_CLIENT_TYPE, "ANDROID");
 		ret.put(Constants.HEADER_SHOPPER_CLIENT_VERSION, "" + Build.VERSION.SDK_INT);
-		String sessionId = LocalStorage.getProperty(com.shopper.android.Constants.PREFERENCE_SESSION_ID, ctx);
+		String sessionId = ApplicationModel.getInstance(ctx).getSessionId();
 		if (sessionId != null) {			
 			ret.put(Constants.HEADER_SHOPPER_SESSION_ID, sessionId);
 		}
-		String cookie = LocalStorage.getProperty(com.shopper.android.Constants.PREFERENCE_COOKIE, ctx);
+		String cookie = ApplicationModel.getInstance(ctx).getCookie();
 		if (sessionId != null) {			
 			ret.put(Constants.HEADER_SHOPPER_COOKIE, cookie);			
 		}
