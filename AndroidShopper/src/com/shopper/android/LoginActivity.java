@@ -1,6 +1,5 @@
 package com.shopper.android;
 
-import com.shopper.android.R;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -8,7 +7,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,33 +18,20 @@ import android.widget.TextView;
  * well.
  */
 public class LoginActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
-
-	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
 
-	// Values for email and password at the time of the login attempt.
-	private String mEmail;
-	private String mPassword;
+	private User user;
 
 	// UI references.
-	private EditText mEmailView;
-	private EditText mPasswordView;
-	private View mLoginFormView;
-	private View mLoginStatusView;
-	private TextView mLoginStatusMessageView;
+	private EditText emailView;
+	private EditText passwordView;
+	private View loginFormView;
+	private View loginStatusView;
+	private TextView loginStatusMessageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +40,13 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
+		emailView = (EditText) findViewById(R.id.email);
+		if (user != null) {			
+			emailView.setText(user.getEmail());
+		}
 
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
+		passwordView = (EditText) findViewById(R.id.password);
+		passwordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
 					public boolean onEditorAction(TextView textView, int id,
@@ -73,9 +59,9 @@ public class LoginActivity extends Activity {
 					}
 				});
 
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
+		loginFormView = findViewById(R.id.login_form);
+		loginStatusView = findViewById(R.id.login_status);
+		loginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
 		findViewById(R.id.sign_in_button).setOnClickListener(
 				new View.OnClickListener() {
@@ -86,59 +72,53 @@ public class LoginActivity extends Activity {
 				});
 	}
 
-	/**
-	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
-	 * errors are presented and no actual login attempt is made.
-	 */
 	public void attemptLogin() {
 		if (mAuthTask != null) {
 			return;
 		}
 
 		// Reset errors.
-		mEmailView.setError(null);
-		mPasswordView.setError(null);
+		emailView.setError(null);
+		passwordView.setError(null);
 
 		// Store values at the time of the login attempt.
-		mEmail = mEmailView.getText().toString();
-		mPassword = mPasswordView.getText().toString();
+		user = new User(emailView.getText().toString(), passwordView.getText().toString());
 				
 
 		boolean cancel = false;
 		View focusView = null;
-		
-		int loginSuccessCode = SecurityHandler.login(new User(mEmail, mPassword), this);
-		switch (loginSuccessCode) {
+		System.out.println("User: "+user);
+		int userValidationCode = SecurityHandler.validateUser(user);
+		System.out.println("userValidationCode: "+userValidationCode);
+		switch (userValidationCode) {
 			case SecurityHandler.EMPTY_PASSWORD:
-				mPasswordView.setError(getString(R.string.error_field_required));
+				passwordView.setError(getString(R.string.error_field_required));
+				focusView = passwordView;
+                cancel = true;
 				break;
 			case SecurityHandler.EMPTY_EMAIL:
-				mEmailView.setError(getString(R.string.error_field_required));
+				emailView.setError(getString(R.string.error_field_required));
+				focusView = emailView;
+                cancel = true;
 				break;
 			case SecurityHandler.INVALID_EMAIL:
-				mEmailView.setError(getString(R.string.error_invalid_email));
+				emailView.setError(getString(R.string.error_invalid_email));
+				focusView = emailView;
+                cancel = true;
 				break;
 			case SecurityHandler.INVALID_PASSWORD:
-				mPasswordView.setError(getString(R.string.error_invalid_password));
+				passwordView.setError(getString(R.string.error_invalid_password));
+				focusView = passwordView;
+                cancel = true;
 				break;
-
-			case SecurityHandler.FAIL:
-				
-				break;
-	
 			default:
 				break;
 		}
 
 		if (cancel) {
-			// There was an error; don't attempt login and focus the first
-			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+			loginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
@@ -150,39 +130,34 @@ public class LoginActivity extends Activity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
-		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
 
-			mLoginStatusView.setVisibility(View.VISIBLE);
-			mLoginStatusView.animate().setDuration(shortAnimTime)
+			loginStatusView.setVisibility(View.VISIBLE);
+			loginStatusView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
+							loginStatusView.setVisibility(show ? View.VISIBLE
 									: View.GONE);
 						}
 					});
 
-			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
+			loginFormView.setVisibility(View.VISIBLE);
+			loginFormView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
+							loginFormView.setVisibility(show ? View.GONE
 									: View.VISIBLE);
 						}
 					});
 		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
-			// and hide the relevant UI components.
-			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+			loginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -193,19 +168,8 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}
-
-			
-
-			// TODO: register the new account here.
-			return true;
+			int loginSuccessCode = SecurityHandler.login(user, LoginActivity.this);
+			return loginSuccessCode == SecurityHandler.OK;
 		}
 
 		@Override
@@ -216,9 +180,9 @@ public class LoginActivity extends Activity {
 			if (success) {
 				finish();
 			} else {
-				mPasswordView
+				passwordView
 						.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
+				passwordView.requestFocus();
 			}
 		}
 

@@ -8,8 +8,7 @@ import android.content.res.Configuration;
 import com.shopper.android.util.LocalStorage;
 
 public class ShopperApplication extends Application{
-	    private Locale locale = null;
-
+	
 	    @Override
 	    public void onConfigurationChanged(Configuration newConfig)
 	    {
@@ -23,6 +22,7 @@ public class ShopperApplication extends Application{
 	        super.onCreate();
 	        LocalStorage.setProperty(Constants.PREFERENCE_LANG, "HU", this);
 	        setLang(null);
+	        ApplicationModel.getInstance(this).load();
 	    }
 
 		private void setLang(Configuration c){

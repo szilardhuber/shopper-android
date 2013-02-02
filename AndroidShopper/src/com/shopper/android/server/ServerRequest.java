@@ -17,13 +17,14 @@ import com.shopper.android.util.LocalStorage;
 
 public class ServerRequest {
 	private static final String SERVER_ADDRESS = "https://szilardhuber.appspot.com"; 
-	private static final String LOGIN_URL = "/User/Login?email{0}&password{1}";
-	private static final String REGISTER_URL = "/User/Register?email{0}&password{1}";
+	private static final String LOGIN_URL = "/user/login/api?email=%s&password=%s";
+	private static final String REGISTER_URL = "/User/Register?email=%s&password=%s";
 
 	private static ServerResponse send(String url, Context ctx){
 		HttpClient httpclient = new DefaultHttpClient();
 	    HttpResponse response;
 		try {
+			System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
 			HttpPost request = new HttpPost(SERVER_ADDRESS + url);
 			addCommonHeaders(request, ctx);
 			response = httpclient.execute(request);			

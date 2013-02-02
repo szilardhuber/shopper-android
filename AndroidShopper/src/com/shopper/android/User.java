@@ -20,10 +20,10 @@ public class User {
 	}
 	
 	public boolean isValidPassword() {
-		if (password == null) {
+		if (password == null || password.length() < 8) {
 	        return false;
 	    }
-		return true; // TODO: implement this
+		return true;
 	}
 	
 	public String getEmail() {

@@ -6,32 +6,23 @@ import org.apache.http.HttpStatus;
 
 import android.content.Context;
 
-import com.shopper.android.util.LocalStorage;
+import com.shopper.android.ApplicationModel;
 
 public class ServerResponse {
 		
 	private int status;
 	private Header[] headers;
 	private String error;
-	private String sessionId;
-	private String cookie;
 	
 	public ServerResponse(HttpResponse response,Context ctx) {
 		super();
 		this.status = response.getStatusLine().getStatusCode();;
+		System.out.println("Response status: "+ status);
 		this.headers = response.getAllHeaders();
-		parseHeaders();
-		saveCommonHeaders(ctx);
+		parseHeaders(ctx);
 	}
-	private void saveCommonHeaders(Context ctx) {
-		if (sessionId != null) {
-			LocalStorage.setProperty(com.shopper.android.Constants.PREFERENCE_SESSION_ID, sessionId, ctx);
-		}
-		if (cookie != null) {
-			LocalStorage.setProperty(com.shopper.android.Constants.PREFERENCE_COOKIE, cookie, ctx);
-		}		
-	}
-	private void parseHeaders() {
+
+	private void parseHeaders(Context ctx) {
 		for (int i = 0; i < headers.length; i++) {
 			Header header = headers[i];
 			String headerName = header.getName();		
@@ -39,9 +30,9 @@ public class ServerResponse {
 			if (headerName.equals(Constants.HEADER_SHOPPER_ERROR)) {
 				error = headerValue;
 			} else if (headerName.equals(Constants.HEADER_SHOPPER_SESSION_ID)) {
-				sessionId = headerValue;
+				ApplicationModel.getInstance(ctx).setSessionId(headerValue);
 			}else if (headerName.equals(Constants.HEADER_SHOPPER_COOKIE)) {
-				cookie = headerValue;
+				ApplicationModel.getInstance(ctx).setCookie(headerValue);
 			}
 		}
 	}
@@ -56,13 +47,5 @@ public class ServerResponse {
 	
 	public String getError() {
 		return error;
-	}
-	
-	public String getSessionId() {
-		return sessionId;
-	}
-	
-	public String getCookie() {
-		return cookie;
-	}
+	}	
 }
