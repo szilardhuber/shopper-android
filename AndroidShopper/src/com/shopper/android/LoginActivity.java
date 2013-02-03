@@ -1,5 +1,16 @@
 package com.shopper.android;
 
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import com.shopper.android.server.ServerRequest;
+import com.shopper.android.server.ServerResponse;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -203,7 +214,6 @@ public class LoginActivity extends Activity {
 			} else {
 				successCode = SecurityHandler.login(user, LoginActivity.this);
 			}
-			
 			return successCode == SecurityHandler.OK;
 		}
 

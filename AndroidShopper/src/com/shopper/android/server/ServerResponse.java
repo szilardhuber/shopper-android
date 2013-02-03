@@ -1,5 +1,7 @@
 package com.shopper.android.server;
 
+import java.io.IOException;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -14,10 +16,10 @@ public class ServerResponse {
 	private Header[] headers;
 	private String error;
 	
-	public ServerResponse(HttpResponse response,Context ctx) {
+	public ServerResponse(HttpResponse response,Context ctx) throws IllegalStateException, IOException {
 		super();
 		this.status = response.getStatusLine().getStatusCode();;
-		System.out.println("Response status: "+ status);
+		System.out.println("Response status: "+ status);			    
 		this.headers = response.getAllHeaders();
 		parseHeaders(ctx);
 	}
@@ -32,7 +34,7 @@ public class ServerResponse {
 				error = headerValue;
 			} else if (headerName.equals(Constants.HEADER_SHOPPER_SESSION_ID)) {
 				ApplicationModel.getInstance(ctx).setSessionId(headerValue);
-			}else if (headerName.equals(Constants.HEADER_SHOPPER_COOKIE)) {
+			}else if (headerName.equalsIgnoreCase(Constants.HEADER_SHOPPER_COOKIE)) {
 				ApplicationModel.getInstance(ctx).setCookie(headerValue);
 			}
 		}

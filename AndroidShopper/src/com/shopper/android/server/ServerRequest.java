@@ -25,13 +25,19 @@ public class ServerRequest {
 	private static final String LOGIN_URL = "/User/Login/api";
 	private static final String REGISTER_URL = "/User/Register/api";
 
-	private static ServerResponse send(String url, List<NameValuePair> nameValuePairs, Context ctx){
+	public static ServerResponse send(String url,  Context ctx){
+		return send(url, null, ctx);
+	}
+	
+	public static ServerResponse send(String url, List<NameValuePair> nameValuePairs, Context ctx){
 		HttpClient httpclient = new DefaultHttpClient();
 	    HttpResponse response;
 		try {
 			System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
 			HttpPost request = new HttpPost(SERVER_ADDRESS + url);
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			if (nameValuePairs != null) {				
+				request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			}
 			addCommonHeaders(request, ctx);
 			response = httpclient.execute(request);			
 			return new ServerResponse(response, ctx);
