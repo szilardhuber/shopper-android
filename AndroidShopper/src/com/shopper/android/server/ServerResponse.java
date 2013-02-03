@@ -27,6 +27,7 @@ public class ServerResponse {
 			Header header = headers[i];
 			String headerName = header.getName();		
 			String headerValue = header.getValue();
+			System.out.println(headerName + ": " + headerValue); 
 			if (headerName.equals(Constants.HEADER_SHOPPER_ERROR)) {
 				error = headerValue;
 			} else if (headerName.equals(Constants.HEADER_SHOPPER_SESSION_ID)) {

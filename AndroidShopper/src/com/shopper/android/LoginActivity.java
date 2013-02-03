@@ -21,6 +21,7 @@ import android.widget.TextView;
 public class LoginActivity extends Activity {
 
 	public static final String REGISTER = "register";
+	public static final String EXTRA_SUCCESS = "SUCCESS";
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -32,6 +33,7 @@ public class LoginActivity extends Activity {
 	// UI references.
 	private EditText emailView;
 	private EditText passwordView;
+	private EditText passwordView2;
 	private View loginFormView;
 	private View loginStatusView;
 	private TextView loginStatusMessageView;
@@ -78,11 +80,15 @@ public class LoginActivity extends Activity {
 	}
 
 	private void changeLayout() {
-		if (!register) {
-			return;
-		}
+		passwordView2 = (EditText) findViewById(R.id.password2);
 		Button registerButton = (Button)findViewById(R.id.sign_in_button);
-		registerButton.setText(R.string.action_register);
+		if (register) {
+			passwordView2.setVisibility(View.VISIBLE);
+			registerButton.setText(R.string.action_register);
+		}else {
+			passwordView2.setVisibility(View.GONE);
+			registerButton.setText(R.string.action_sign_in);
+		}
 	}
 
 	public void attemptLogin() {
@@ -93,6 +99,7 @@ public class LoginActivity extends Activity {
 		// Reset errors.
 		emailView.setError(null);
 		passwordView.setError(null);
+		passwordView2.setError(null);
 
 		// Store values at the time of the login attempt.
 		user = new User(emailView.getText().toString(), passwordView.getText().toString());
@@ -126,6 +133,14 @@ public class LoginActivity extends Activity {
 				break;
 			default:
 				break;
+		}
+		
+		if (register) {
+			if (!user.getPassword().equals(passwordView2.getText().toString())) {
+				passwordView2.setError(getString(R.string.error_password_mismatch));
+				focusView = passwordView2;
+                cancel = true;
+			}
 		}
 
 		if (cancel) {
@@ -178,7 +193,8 @@ public class LoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {		
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			int successCode = -1;
@@ -197,8 +213,8 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
-				getIntent().putExtra("SUCCESS", true);
-				setResult(RESULT_OK,getIntent());
+				getIntent().putExtra(EXTRA_SUCCESS, true);
+				setResult(RESULT_OK,getIntent());				
 				finish();
 			} else {
 				passwordView

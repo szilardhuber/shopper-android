@@ -26,7 +26,7 @@ public class SecurityHandler {
 	}
 	
 	public static int register(User user, Context ctx) {
-		ServerResponse response = ServerRequest.loginRequest(user.getEmail(), user.getPassword(), ctx);
+		ServerResponse response = ServerRequest.registerRequest(user.getEmail(), user.getPassword(), ctx);
 		if(response != null && response.isOk()){
 			return OK;
 		}

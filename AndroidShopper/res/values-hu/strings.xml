@@ -8,6 +8,7 @@
     
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Jelszó</string>
+    <string name="prompt_password2">Jelszó mégegyszer</string>
     <string name="action_sign_in">Bejelentkezés</string>
     <string name="action_register">Regisztráció</string>
     <string name="action_sign_in_short">Bejelentkezés</string>
@@ -16,6 +17,7 @@
     <string name="login_progress_signing_in">Bejelentkezés&#8230;</string>
     <string name="error_invalid_email">Hibás E-mail cím</string>
     <string name="error_invalid_password">Túl rövid jelszó (legalább 8 karakter)</string>
+    <string name="error_password_mismatch">Nem egyezik meg a két jelszó</string>
     <string name="error_incorrect_password">Helytelen jelszó</string>
     <string name="error_field_required">Ezt a mezőt kötelező kitölteni</string>    
         

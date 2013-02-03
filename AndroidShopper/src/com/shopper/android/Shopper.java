@@ -146,16 +146,18 @@ public class Shopper extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		System.out.println("onActivityResult: " + requestCode + "," + requestCode);
 		if (requestCode == 0) {
 			if (resultCode == RESULT_OK) {
 				boolean success = intent.getBooleanExtra(
-						"SUCCESS",
+						LoginActivity.EXTRA_SUCCESS,
 						false);
+				System.out.println("success: " + success);
 				TextView content = (TextView)findViewById(R.id.fullscreen_content);
 				if (success) {
-					content.setTag("OK");
+					content.setText("Operation OK");
 				} else {
-					content.setTag("FAIL");
+					content.setText("Operation FAIL");
 				}
 			}
 		}
