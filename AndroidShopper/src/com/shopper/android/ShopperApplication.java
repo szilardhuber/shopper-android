@@ -30,6 +30,7 @@ public class ShopperApplication extends Application{
 				c = getBaseContext().getResources().getConfiguration();
 			}
 			String lang = LocalStorage.getProperty(Constants.PREFERENCE_LANG, this, Constants.DEFAULT_LANG);
+			System.out.println("Lang: "+lang);
 			c.locale = new Locale(lang);
 			getBaseContext().getResources().updateConfiguration(c, getBaseContext().getResources().getDisplayMetrics());
 		}

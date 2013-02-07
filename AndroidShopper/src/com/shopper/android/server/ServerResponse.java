@@ -32,7 +32,7 @@ public class ServerResponse {
 			System.out.println(headerName + ": " + headerValue); 
 			if (headerName.equals(Constants.HEADER_SHOPPER_ERROR)) {
 				error = headerValue;
-			} else if (headerName.equals(Constants.HEADER_SHOPPER_SESSION_ID)) {
+			} else if (headerName.equalsIgnoreCase(Constants.HEADER_SHOPPER_SESSION_ID)) {
 				ApplicationModel.getInstance(ctx).setSessionId(headerValue);
 			}else if (headerName.equalsIgnoreCase(Constants.HEADER_SHOPPER_COOKIE)) {
 				ApplicationModel.getInstance(ctx).setCookie(headerValue);

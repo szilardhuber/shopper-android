@@ -1,20 +1,10 @@
 package com.shopper.android;
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.shopper.android.server.ServerRequest;
-import com.shopper.android.server.ServerResponse;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -226,6 +216,7 @@ public class LoginActivity extends Activity {
 				getIntent().putExtra(EXTRA_SUCCESS, true);
 				setResult(RESULT_OK,getIntent());				
 				finish();
+				startActivity(new Intent(LoginActivity.this, Shopper.class));
 			} else {
 				passwordView
 						.setError(getString(R.string.error_incorrect_password));

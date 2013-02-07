@@ -39,7 +39,7 @@ public class ServerRequest {
 				request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			}
 			addCommonHeaders(request, ctx);
-			response = httpclient.execute(request);			
+			response = httpclient.execute(request);
 			return new ServerResponse(response, ctx);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

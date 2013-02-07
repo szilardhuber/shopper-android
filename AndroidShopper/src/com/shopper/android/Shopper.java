@@ -1,7 +1,6 @@
 package com.shopper.android;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import com.shopper.android.util.SystemUiHider;
  * 
  * @see SystemUiHider
  */
-public class Shopper extends Activity {
+public class Shopper extends RequireLoginActivity {
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -204,5 +203,9 @@ public class Shopper extends Activity {
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
-	
+
+	public void onStartAnotherActivity(View v) {
+    	startActivity(new Intent(this, Shopper.class));
+	}
+
 }

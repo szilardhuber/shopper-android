@@ -48,4 +48,8 @@ public class ApplicationModel {
 		}
 		this.cookie = cookie;
 	}
+
+	public boolean isLogedIn() {
+		return getSessionId() != null;
+	}
 }

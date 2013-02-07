@@ -32,7 +32,9 @@
             android:label="@string/app_name"
             android:theme="@style/LoginFormContainer" >
         </activity>
-        
+        <activity
+            android:name="com.shopper.android.RequireLoginActivity">
+        </activity>
     </application>
 
 </manifest>
