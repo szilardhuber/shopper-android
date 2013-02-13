@@ -21,9 +21,6 @@ import android.widget.TextView;
  */
 public class LoginActivity extends Activity {
 
-	public static final String REGISTER = "register";
-	public static final String EXTRA_SUCCESS = "SUCCESS";
-
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
@@ -38,15 +35,15 @@ public class LoginActivity extends Activity {
 	private View loginFormView;
 	private View loginStatusView;
 	private TextView loginStatusMessageView;
-	private boolean register;
+	private Button submitButton;
+	private boolean register = false;
+
+	private Button toggleButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		register = getIntent().getBooleanExtra(REGISTER, false);
-		System.out.println("register: "+register);
 		setContentView(R.layout.activity_login);
-		changeLayout();
 		// Set up the login form.
 		emailView = (EditText) findViewById(R.id.email);
 		if (user != null) {			
@@ -66,33 +63,45 @@ public class LoginActivity extends Activity {
 						return false;
 					}
 				});
-
+		passwordView2 = (EditText) findViewById(R.id.password2);
 		loginFormView = findViewById(R.id.login_form);
 		loginStatusView = findViewById(R.id.login_status);
 		loginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
-		findViewById(R.id.sign_in_button).setOnClickListener(
+		
+		submitButton = (Button)findViewById(R.id.submit_button);
+		submitButton.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						attemptLogin();
 					}
 				});
+		toggleButton = (Button)findViewById(R.id.swich_mode);
+		toggleButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						toggleLayout();
+					}
+				});
 	}
 
-	private void changeLayout() {
-		passwordView2 = (EditText) findViewById(R.id.password2);
-		Button registerButton = (Button)findViewById(R.id.sign_in_button);
+	private void toggleLayout() {		
+		register = !register;
 		if (register) {
 			passwordView2.setVisibility(View.VISIBLE);
-			registerButton.setText(R.string.action_register);
+			submitButton.setText(R.string.action_register);
+			toggleButton.setText(R.string.action_swich_login);
 		}else {
 			passwordView2.setVisibility(View.GONE);
-			registerButton.setText(R.string.action_sign_in);
+			submitButton.setText(R.string.action_sign_in);
+			toggleButton.setText(R.string.action_swich_register);
 		}
+		System.out.println("new mode register: "+register);
 	}
 
 	public void attemptLogin() {
+		System.out.println("Register: "+register);
 		if (mAuthTask != null) {
 			return;
 		}
@@ -213,8 +222,6 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
-				getIntent().putExtra(EXTRA_SUCCESS, true);
-				setResult(RESULT_OK,getIntent());				
 				finish();
 				startActivity(new Intent(LoginActivity.this, Shopper.class));
 			} else {

@@ -1,14 +1,13 @@
 package com.shopper.android;
 
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-public class RequireLoginActivity extends Activity {
+public class RequireLoginActivity extends HeaderFooterActivity {
 	private static final String INTENT_LOGOUT = "INTENT_LOGOUT";
 	
 	private final BroadcastReceiver logoutReceiver = new BroadcastReceiver() {

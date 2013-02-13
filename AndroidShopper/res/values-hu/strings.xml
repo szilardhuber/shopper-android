@@ -4,6 +4,7 @@
     <string name="app_name">Bevásárlólista</string>
     <string name="dummy_content">Magyar tartalom</string>
     <string name="login_button">Bejelentkezés</string>
+    <string name="logout_button">Kijelentkezés</string>
     <string name="register_button">Regisztráció</string>
     
     <string name="prompt_email">Email</string>
@@ -11,6 +12,8 @@
     <string name="prompt_password2">Jelszó mégegyszer</string>
     <string name="action_sign_in">Bejelentkezés</string>
     <string name="action_register">Regisztráció</string>
+        <string name="action_swich_register">Regisztrálok</string>
+    <string name="action_swich_login">Bejelentkezek</string>
     <string name="action_sign_in_short">Bejelentkezés</string>
     <string name="action_register_short">Regisztráció</string>
     <string name="menu_forgot_password">Elfelejtettem a jelszavamat</string>
