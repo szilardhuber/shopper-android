@@ -7,16 +7,15 @@
         android:layout_width="fill_parent" android:layout_height="0dp"
         android:layout_weight="1">
 
-        <RelativeLayout android:id="@+id/relativeLayout1"
+        <RelativeLayout android:id="@+id/header"
             android:layout_width="fill_parent" android:layout_height="fill_parent"
             android:layout_gravity="center">
                 <Button
-                    android:id="@+id/Button_logout"
+                    android:id="@+id/button_logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:layout_toLeftOf="@+id/button_settings"
                     android:text="@string/logout_button" />
 
 </RelativeLayout>

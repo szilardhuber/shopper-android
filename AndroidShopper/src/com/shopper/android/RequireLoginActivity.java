@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class RequireLoginActivity extends HeaderFooterActivity {
 	private static final String INTENT_LOGOUT = "INTENT_LOGOUT";
@@ -20,6 +22,13 @@ public class RequireLoginActivity extends HeaderFooterActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		findViewById(R.id.button_logout).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						logout();
+					}
+				});
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(INTENT_LOGOUT);
 		registerReceiver(logoutReceiver, intentFilter);
@@ -48,5 +57,10 @@ public class RequireLoginActivity extends HeaderFooterActivity {
 		Intent broadcastIntent = new Intent();
 		broadcastIntent.setAction(INTENT_LOGOUT);
 		sendBroadcast(broadcastIntent);
+	}
+
+	private void logout() {
+		ApplicationModel.getInstance(this).setSessionId(null);
+		openLoginActivity();
 	}
 }

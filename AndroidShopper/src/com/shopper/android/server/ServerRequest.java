@@ -6,13 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.HostnameVerifier;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
@@ -30,7 +37,7 @@ public class ServerRequest {
 	}
 	
 	public static ServerResponse send(String url, List<NameValuePair> nameValuePairs, Context ctx){
-		HttpClient httpclient = new DefaultHttpClient();
+		HttpClient httpclient = getClient();
 	    HttpResponse response;
 		try {
 			System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
@@ -48,6 +55,17 @@ public class ServerRequest {
 			e.printStackTrace();			
 			return null;
 		}
+	}
+	
+	private static HttpClient getClient(){
+		DefaultHttpClient client = new DefaultHttpClient();
+		HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER;
+		SchemeRegistry registry = new SchemeRegistry();
+		SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+		socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+		registry.register(new Scheme("https", socketFactory, 443));
+		SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+		return new DefaultHttpClient(mgr, client.getParams());
 	}
 
 
