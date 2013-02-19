@@ -204,10 +204,11 @@ public class LoginActivity extends Activity {
 	 * the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {		
-
+		
+		private int successCode = -1;
+		
 		@Override
-		protected Boolean doInBackground(Void... params) {
-			int successCode = -1;
+		protected Boolean doInBackground(Void... params) {			
 			if (register) {
 				successCode = SecurityHandler.register(user, LoginActivity.this);
 			} else {
@@ -225,8 +226,23 @@ public class LoginActivity extends Activity {
 				finish();
 				startActivity(new Intent(LoginActivity.this, Shopper.class));
 			} else {
-				passwordView
-						.setError(getString(R.string.error_incorrect_password));
+				switch (successCode) {
+				case SecurityHandler.FAIL:
+					passwordView
+					.setError(getString(R.string.error_incorrect_data));
+					break;
+				case SecurityHandler.UNVERIFIED:
+					passwordView
+					.setError(getString(R.string.error_unverified_registration));
+					break;
+				case SecurityHandler.IO_ERROR:
+					passwordView
+					.setError(getString(R.string.error_io));
+					break;
+
+				default:
+					break;
+				}
 				passwordView.requestFocus();
 			}
 		}

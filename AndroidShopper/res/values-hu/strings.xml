@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Bevásárlólista</string>
     <string name="dummy_content">Magyar tartalom</string>
     <string name="login_button">Bejelentkezés</string>
@@ -21,7 +20,8 @@
     <string name="error_invalid_email">Hibás E-mail cím</string>
     <string name="error_invalid_password">Túl rövid jelszó (legalább 8 karakter)</string>
     <string name="error_password_mismatch">Nem egyezik meg a két jelszó</string>
-    <string name="error_incorrect_password">Helytelen jelszó</string>
+    <string name="error_incorrect_data">Hiba történt. Kérjük ellenőrizze a megadott adatokat és próbálja újra.</string>
+    <string name="error_unverified_registration">Visszaigazolatlan regisztráció. Ellenőrizze a leveleit.</string>
     <string name="error_field_required">Ezt a mezőt kötelező kitölteni</string>    
-        
+    <string name="error_io">Nem sikerült kapcsolódni a szerverhez. Ellenőrizze internet kapcsolatát.</string>
 </resources>

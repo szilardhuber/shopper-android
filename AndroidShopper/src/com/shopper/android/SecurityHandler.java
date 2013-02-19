@@ -6,8 +6,11 @@ import com.shopper.android.server.ServerRequest;
 import com.shopper.android.server.ServerResponse;
 
 public class SecurityHandler {
-	public static final int OK = 0;
-	public static final int FAIL = 1;
+	public static final int OK = 200;
+	public static final int FAIL = 400;	
+	public static final int LOGIN_REQUIRED = 401;
+	public static final int UNVERIFIED = 403;
+	public static final int IO_ERROR = 1;
 	public static final int INVALID_EMAIL = 2;
 	public static final int INVALID_PASSWORD = 3;
 	public static final int EMPTY_EMAIL = 4;
@@ -19,18 +22,18 @@ public class SecurityHandler {
 
 	public static int login(User user, Context ctx) {
 		ServerResponse response = ServerRequest.loginRequest(user.getEmail(), user.getPassword(), ctx);
-		if (response != null && response.isOk()) {
-			return OK;
+		if (response == null) {
+			return IO_ERROR;
 		}
-		return FAIL;
+		return response.getStatus();
 	}
 	
 	public static int register(User user, Context ctx) {
 		ServerResponse response = ServerRequest.registerRequest(user.getEmail(), user.getPassword(), ctx);
-		if(response != null && response.isOk()){
-			return OK;
+		if (response == null) {
+			return IO_ERROR;
 		}
-		return FAIL;
+		return response.getStatus();
 	}
 	
 	public static int validateUser(User user){

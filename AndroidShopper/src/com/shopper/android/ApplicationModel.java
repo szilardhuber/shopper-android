@@ -10,7 +10,7 @@ public class ApplicationModel {
 	
 	private Context context;
 	private String sessionId;
-	private String cookie;
+	private String token;
 
 	 
     private ApplicationModel() {
@@ -24,7 +24,7 @@ public class ApplicationModel {
     
     public void load(){
     	this.sessionId = LocalStorage.getProperty(Constants.PREFERENCE_SESSION_ID, context);
-    	this.cookie = LocalStorage.getProperty(Constants.PREFERENCE_COOKIE, context);
+    	this.token = LocalStorage.getProperty(Constants.PREFERENCE_COOKIE, context);
     }
 
 	public String getSessionId() {
@@ -38,18 +38,24 @@ public class ApplicationModel {
 		this.sessionId = sessionId;
 	}
 
-	public String getCookie() {
-		return cookie;
+	public String getToken() {
+		return token;
 	}
 
-	public void setCookie(String cookie) {
-		if ((this.cookie == null && cookie != null) || !this.cookie.equals(cookie)) {
+	public void setToken(String cookie) {
+		if ((this.token == null && cookie != null) || !this.token.equals(cookie)) {
 			LocalStorage.setProperty(Constants.PREFERENCE_COOKIE, cookie, context);
 		}
-		this.cookie = cookie;
+		this.token = cookie;
 	}
 
 	public boolean isLogedIn() {
 		return getSessionId() != null;
+	}
+
+	@Override
+	public String toString() {
+		return "ApplicationModel [sessionId=" + sessionId + ", cookie="
+				+ token + "]";
 	}
 }

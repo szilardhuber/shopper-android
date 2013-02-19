@@ -20,7 +20,10 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short (minimum 8 characters)</string>
     <string name="error_password_mismatch">Passwords must be the same!</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>    
+    <string name="error_incorrect_data">Operation failed. Check fields and try again.</string>
+    <string name="error_unverified_registration">Unverified registration. Please check your mails.</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_io">Unable to connect to the server. Check your internet connection.</string>
+    
         
 </resources>

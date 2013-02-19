@@ -1,6 +1,9 @@
 package com.shopper.android;
 
 
+import com.shopper.android.server.ServerRequest;
+import com.shopper.android.server.ServerResponse;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +64,17 @@ public class RequireLoginActivity extends HeaderFooterActivity {
 
 	private void logout() {
 		ApplicationModel.getInstance(this).setSessionId(null);
+		ApplicationModel.getInstance(this).setToken(null);
 		openLoginActivity();
 	}
+	
+	protected ServerResponse getURL(String url){
+		ServerResponse response = ServerRequest.sendGet(url, this);
+		if (response.getStatus() == SecurityHandler.LOGIN_REQUIRED) {
+			openLoginActivity();
+			return null;
+		}
+		return response;
+	}
+
 }

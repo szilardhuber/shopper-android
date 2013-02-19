@@ -1,8 +1,13 @@
 package com.shopper.android;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.TextView;
 
+import com.shopper.android.server.ServerResponse;
 import com.shopper.android.util.SystemUiHider;
 
 /**
@@ -16,7 +21,13 @@ public class Shopper extends RequireLoginActivity{
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ViewGroup vg = (ViewGroup) findViewById(R.id.main_content);
+        ViewGroup vg = (ViewGroup) findViewById(R.id.main_content);        
         ViewGroup.inflate(Shopper.this, R.layout.activity_main, vg);
+        ServerResponse response = getURL("/api");
+        if (response != null) {
+        	TextView t = (TextView) vg.findViewById(R.id.content);
+        	String content = response.getContent();
+        	t.setText(content);			
+        }
     }
 }
