@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:weightSum="10"
-    android:id="@+id/commonlayout" android:background="#FFFFFF">
+    android:orientation="vertical" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:weightSum="10"
+    android:id="@+id/commonlayout" 
+    android:background="#FFFFFF">
+    
     <LinearLayout android:id="@+id/header"
-        android:layout_width="fill_parent" android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1" 
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:weightSum="5.0" 
+        android:gravity="right"
+        android:layout_margin="0dp">
 
-        <RelativeLayout android:id="@+id/header"
-            android:layout_width="fill_parent" android:layout_height="fill_parent"
-            android:layout_gravity="center">
-                <Button
-                    android:id="@+id/button_logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/logout_button" />
-
-</RelativeLayout>
-
+        <Button android:id="@+id/button_logout" 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" 
+            android:textColor="#FFFFFF"
+            android:padding="10dp"
+            android:text="@string/logout_button"></Button>    
     </LinearLayout>
+    
     <LinearLayout android:id="@+id/main_content"
-        android:layout_weight="8" android:layout_width="fill_parent"
-        android:layout_height="0dp" android:background="#FFFFFF">
+        android:layout_weight="8" 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" 
+        android:background="#FFFFFF">
     </LinearLayout>
 
     <LinearLayout android:id="@+id/footer"
-        android:layout_weight="1" android:layout_width="fill_parent"
-        android:orientation="horizontal" android:layout_height="0dp"
+        android:layout_weight="1" 
+        android:layout_width="fill_parent"
+        android:orientation="horizontal" 
+        android:layout_height="0dp"
         android:visibility="visible"
-        android:weightSum="5.0" android:gravity="center"
+        android:weightSum="5.0" 
+        android:gravity="center"
         android:layout_margin="0dp">
 
         <Button android:id="@+id/home" 
