@@ -28,6 +28,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 
 import com.shopper.android.ApplicationModel;
@@ -37,22 +38,18 @@ public class ServerRequest {
 	private static final String LOGIN_URL = "/User/Login/api";
 	private static final String REGISTER_URL = "/User/Register/api";
 
-	public static ServerResponse sendGet(String url,  Context ctx){
-		HttpClient httpclient = getClient();
-	    HttpResponse response;
-		try {
-			System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
-			HttpGet request = new HttpGet(SERVER_ADDRESS + url);
-			addCommonHeaders(request, ctx);
-			response = httpclient.execute(request);
-			return new ServerResponse(response, ctx);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();			
-			return null;
-		}
+	private Context context;
+	ServerResponseCallback callback;
+	
+	public void sendGet(String url,  Context ctx, ServerResponseCallback callback){
+		this.context = ctx;
+		this.callback = callback;
+		
+		System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
+		HttpGet request = new HttpGet(SERVER_ADDRESS + url);
+		addCommonHeaders(request, ctx);
+		AsyncHttpGet get = new AsyncHttpGet();
+		get.execute(request);
 	}
 	
 	public static ServerResponse sendPost(String url, List<NameValuePair> nameValuePairs, Context ctx){
@@ -133,5 +130,29 @@ public class ServerRequest {
 			System.out.println("Request header: "+entry.getKey() + ": " + entry.getValue());
 		}
 		return ret;		
+	}
+	
+	private class AsyncHttpGet extends AsyncTask<HttpGet, Void, ServerResponse>{
+		@Override
+		protected ServerResponse doInBackground(HttpGet... params) {
+			if (params != null && params.length > 0) {
+				HttpClient httpclient = getClient();
+				HttpResponse response;
+				try {
+					response = httpclient.execute(params[0]);
+					return new ServerResponse(response, context);				
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse response) {
+			callback.gotResponse(response);
+		}
 	}
 }

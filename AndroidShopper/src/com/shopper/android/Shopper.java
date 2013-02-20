@@ -21,13 +21,18 @@ public class Shopper extends RequireLoginActivity{
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ViewGroup vg = (ViewGroup) findViewById(R.id.main_content);        
-        ViewGroup.inflate(Shopper.this, R.layout.activity_main, vg);
-        ServerResponse response = getURL("/api");
-        if (response != null) {
-        	TextView t = (TextView) vg.findViewById(R.id.content);
-        	String content = response.getContent();
-        	t.setText(content);			
-        }
+        getURL("/api");
     }
+	
+	@Override
+	public void gotResponse(ServerResponse response) {
+		super.gotResponse(response);
+		   ViewGroup vg = (ViewGroup) findViewById(R.id.main_content);        
+	        ViewGroup.inflate(Shopper.this, R.layout.activity_main, vg);
+	        if (response != null) {
+	        	TextView t = (TextView) vg.findViewById(R.id.content);
+	        	String content = response.getContent();
+	        	t.setText(content);			
+	        }
+	}
 }

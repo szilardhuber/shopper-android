@@ -3,6 +3,7 @@ package com.shopper.android;
 
 import com.shopper.android.server.ServerRequest;
 import com.shopper.android.server.ServerResponse;
+import com.shopper.android.server.ServerResponseCallback;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class RequireLoginActivity extends HeaderFooterActivity {
+public class RequireLoginActivity extends HeaderFooterActivity implements ServerResponseCallback{
 	private static final String INTENT_LOGOUT = "INTENT_LOGOUT";
 	
 	private final BroadcastReceiver logoutReceiver = new BroadcastReceiver() {
@@ -68,13 +69,15 @@ public class RequireLoginActivity extends HeaderFooterActivity {
 		openLoginActivity();
 	}
 	
-	protected ServerResponse getURL(String url){
-		ServerResponse response = ServerRequest.sendGet(url, this);
+	protected void getURL(String url){
+		new ServerRequest().sendGet(url, this, this);
+	}
+
+	@Override
+	public void gotResponse(ServerResponse response) {
 		if (response.getStatus() == SecurityHandler.LOGIN_REQUIRED) {
 			openLoginActivity();
-			return null;
 		}
-		return response;
 	}
 
 }
