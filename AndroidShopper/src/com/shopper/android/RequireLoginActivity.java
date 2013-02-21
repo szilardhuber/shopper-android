@@ -70,14 +70,22 @@ public class RequireLoginActivity extends HeaderFooterActivity implements Server
 	}
 	
 	protected void getURL(String url){
+		setProgressMessage(R.string.progress);
+		showProgress(true);
 		new ServerRequest().sendGet(url, this, this);
 	}
 
 	@Override
 	public void gotResponse(ServerResponse response) {
+		showProgress(false);
 		if (response.getStatus() == SecurityHandler.LOGIN_REQUIRED) {
 			openLoginActivity();
 		}
+	}
+
+	@Override
+	public void cancelled() {
+		showProgress(false);		
 	}
 
 }

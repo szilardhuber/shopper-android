@@ -6,6 +6,7 @@
     <string name="login_button">Sign in</string>
     <string name="logout_button">Log out</string>
     <string name="register_button">Register</string>
+    <string name="progress">Loading&#8230;</string>
     
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

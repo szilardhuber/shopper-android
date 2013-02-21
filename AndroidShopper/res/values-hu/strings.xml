@@ -5,6 +5,7 @@
     <string name="login_button">Bejelentkezés</string>
     <string name="logout_button">Kijelentkezés</string>
     <string name="register_button">Regisztráció</string>
+    <string name="progress">Kérem várjon&#8230;</string>
     
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Jelszó</string>

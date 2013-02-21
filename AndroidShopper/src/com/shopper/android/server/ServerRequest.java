@@ -154,5 +154,11 @@ public class ServerRequest {
 		protected void onPostExecute(ServerResponse response) {
 			callback.gotResponse(response);
 		}
+		
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			callback.cancelled();
+		}
 	}
 }
