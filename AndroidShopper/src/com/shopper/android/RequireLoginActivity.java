@@ -1,17 +1,16 @@
 package com.shopper.android;
 
 
-import com.shopper.android.server.ServerRequest;
-import com.shopper.android.server.ServerResponse;
-import com.shopper.android.server.ServerResponseCallback;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import com.shopper.android.server.ServerRequest;
+import com.shopper.android.server.ServerResponse;
+import com.shopper.android.server.ServerResponseCallback;
 
 public class RequireLoginActivity extends HeaderFooterActivity implements ServerResponseCallback{
 	private static final String INTENT_LOGOUT = "INTENT_LOGOUT";
@@ -68,7 +67,7 @@ public class RequireLoginActivity extends HeaderFooterActivity implements Server
 		ApplicationModel.getInstance(this).setToken(null);
 		openLoginActivity();
 	}
-	
+
 	protected void getURL(String url){
 		setProgressMessage(R.string.progress);
 		showProgress(true);
@@ -86,6 +85,12 @@ public class RequireLoginActivity extends HeaderFooterActivity implements Server
 	@Override
 	public void cancelled() {
 		showProgress(false);		
+	}
+
+	@Override
+	public void offline() {
+		//TODO: implement this 
+		System.out.println("OFFLINE");
 	}
 
 }

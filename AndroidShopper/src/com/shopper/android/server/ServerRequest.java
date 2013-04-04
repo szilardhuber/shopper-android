@@ -28,6 +28,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -44,6 +46,10 @@ public class ServerRequest {
 	public void sendGet(String url,  Context ctx, ServerResponseCallback callback){
 		this.context = ctx;
 		this.callback = callback;
+		if (!isOnline(ctx)) {
+			callback.offline();
+			return;
+		}
 		
 		System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
 		HttpGet request = new HttpGet(SERVER_ADDRESS + url);
@@ -53,6 +59,10 @@ public class ServerRequest {
 	}
 	
 	public static ServerResponse sendPost(String url, List<NameValuePair> nameValuePairs, Context ctx){
+		if (!isOnline(ctx)) {			
+			System.out.println("Phone is offline");
+			return null;
+		}
 		HttpClient httpclient = getClient();
 	    HttpResponse response;
 		try {
@@ -161,4 +171,15 @@ public class ServerRequest {
 			callback.cancelled();
 		}
 	}
+	
+	private static boolean isOnline(Context ctx) {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnected()) {
+	        return true;
+	    }
+	    return false;
+	}
+	
 }
