@@ -33,7 +33,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import com.shopper.android.ApplicationModel;
+import com.shopper.android.model.ApplicationModel;
 
 public class ServerRequest {
 	private static final String SERVER_ADDRESS = "https://szilardhuber.appspot.com"; 

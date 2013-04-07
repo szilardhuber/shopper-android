@@ -1,5 +1,6 @@
-package com.shopper.android;
+package com.shopper.android.model;
 
+import com.shopper.android.Constants;
 import com.shopper.android.util.LocalStorage;
 
 import android.content.Context;

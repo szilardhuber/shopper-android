@@ -1,4 +1,4 @@
-package com.shopper.android;
+package com.shopper.android.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,6 +14,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.shopper.android.R;
+import com.shopper.android.model.User;
 
 /**
  * Activity which displays a login screen to the user, offering registration as

@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.Application;
 import android.content.res.Configuration;
 
+import com.shopper.android.model.ApplicationModel;
 import com.shopper.android.util.LocalStorage;
 
 public class ShopperApplication extends Application{

@@ -1,4 +1,4 @@
-package com.shopper.android;
+package com.shopper.android.activity;
 
 
 import android.content.BroadcastReceiver;
@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
+import com.shopper.android.R;
+import com.shopper.android.model.ApplicationModel;
 import com.shopper.android.server.ServerRequest;
 import com.shopper.android.server.ServerResponse;
 import com.shopper.android.server.ServerResponseCallback;

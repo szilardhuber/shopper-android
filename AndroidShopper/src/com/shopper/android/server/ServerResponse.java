@@ -8,7 +8,7 @@ import org.apache.http.HttpResponse;
 
 import android.content.Context;
 
-import com.shopper.android.ApplicationModel;
+import com.shopper.android.model.ApplicationModel;
 
 public class ServerResponse {
 		

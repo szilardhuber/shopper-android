@@ -17,7 +17,7 @@
         android:name="ShopperApplication"
         >
         <activity
-            android:name="com.shopper.android.Shopper"
+            android:name="com.shopper.android.activity.Shopper"
             android:label=""            
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity            
-            android:name="com.shopper.android.LoginActivity"
+            android:name="com.shopper.android.activity.LoginActivity"
             android:label=""
             android:theme="@style/LoginFormContainer" >            
         </activity>

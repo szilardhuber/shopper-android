@@ -1,4 +1,4 @@
-package com.shopper.android;
+package com.shopper.android.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.shopper.android.R;
 
 public class HeaderFooterActivity extends Activity {	
     protected void onCreate(Bundle savedInstanceState) {
