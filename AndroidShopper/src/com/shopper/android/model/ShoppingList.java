@@ -5,11 +5,12 @@ import org.json.JSONObject;
 
 public class ShoppingList {
 
-	private int id = 1; // TODO: make it dynamic
+	private int id;
 	private String name;
 
 	public ShoppingList(JSONObject jsonList) throws JSONException {
 		this.name = jsonList.getString("name");
+		this.id = jsonList.getInt("id");
 	}
 
 	public int getId() {

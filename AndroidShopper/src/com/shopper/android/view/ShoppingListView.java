@@ -1,16 +1,19 @@
 package com.shopper.android.view;
 
-import com.shopper.android.model.ShoppingList;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.shopper.android.R;
+import com.shopper.android.model.ShoppingList;
 
 public class ShoppingListView extends ScrollView {
 
@@ -68,14 +71,14 @@ public class ShoppingListView extends ScrollView {
 
 		// create row for header
 		TableRow header = new TableRow(context);
-		header.setBackgroundColor(Color.LTGRAY);
+		header.setBackgroundColor(Color.LTGRAY); // TODO: don't use color constant here 
 		tl.addView(header);
 
 		TextView listName = new TextView(context);
 		listName.setTextSize(HEADER_FONT_SIZE);
 		listName.setTextColor(Color.BLACK);
 		listName.setText("Bevásárló lista"); //TODO: strings.xml
-		listName.setWidth(COLUMN_WIDTH);
+		//listName.setWidth(COLUMN_WIDTH);
 		listName.setPadding(PADDING_LEFT, PADDING_HEADER, 0, PADDING_HEADER);
 		header.addView(listName);
 	}
@@ -88,22 +91,27 @@ public class ShoppingListView extends ScrollView {
 		// row list item
 		TableRow tr = new TableRow(context);
 		tl.addView(tr);
-		tr.setBackgroundColor(Color.WHITE);		
 		TableRow.LayoutParams trLineParams = new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT, 1);
 		trLineParams.setMargins(LINE_MARGIN, LINE_MARGIN, LINE_MARGIN, LINE_MARGIN);
 		tr.setLayoutParams(trLineParams);
 
 		TextView list = new TextView(context);
-		list.setTextColor(Color.DKGRAY);
+		list.setBackgroundColor(Color.BLACK);
+		list.setTextColor(Color.WHITE);
 		list.setText(shoppingList.getName());
-		list.setWidth(COLUMN_WIDTH);
+		list.setWidth(LayoutParams.MATCH_PARENT);
 		list.setPadding(PADDING_LEFT, 0, 0, 0);
+		list.setGravity(Gravity.CENTER_VERTICAL);
 		list.setHeight(ROW_HEIGHT);
 		tr.addView(list);
 		
-		Button detailsButton = new Button(getContext());
-		detailsButton.setText(">"); // TODO: Replace with icon
+		ImageButton detailsButton = new ImageButton(getContext());
+		detailsButton.setImageResource(R.drawable.arrow_right);
+		detailsButton.setBackgroundColor(Color.BLACK);
+		list.setPadding(PADDING_LEFT, 0, 0, 0);
+		list.setGravity(Gravity.CENTER_VERTICAL);
+		list.setHeight(ROW_HEIGHT);
 		tr.addView(detailsButton);
 		
 	}
