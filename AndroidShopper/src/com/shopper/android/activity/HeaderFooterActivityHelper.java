@@ -5,20 +5,31 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
-import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shopper.android.R;
 
-public class HeaderFooterActivity extends Activity {	
-    protected void onCreate(Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
-         setContentView(R.layout.header_footer);         
+public class HeaderFooterActivityHelper {
+	Activity owner;
+	
+	public HeaderFooterActivityHelper(Activity owner) {
+		this.owner = owner;
+	}
+    protected void onCreate() {
+    	System.out.println("setContentView");
+         owner.setContentView(R.layout.header_footer);         
     }
     
-    protected void setProgressMessage(int id) {
-    	((TextView)findViewById(R.id.progress_message)).setText(id);
+    public void inflateLayout(int layout){
+    	ViewGroup vg = (ViewGroup) owner.findViewById(R.id.main_content);
+    	System.out.println("inflate: "+layout);
+        ViewGroup.inflate(owner, layout, vg);
+    }
+    
+    public void setProgressMessage(int id) {
+    	((TextView)owner.findViewById(R.id.progress_message)).setText(id);
 	}
     
 	/**
@@ -26,10 +37,10 @@ public class HeaderFooterActivity extends Activity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	protected void showProgress(final boolean show) {
-		final View progress = findViewById(R.id.progress);
-		final View content =  findViewById(R.id.main_content);
+		final View progress = owner.findViewById(R.id.progress);
+		final View content =  owner.findViewById(R.id.main_content);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(
+			int shortAnimTime = owner.getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
 
 			progress.setVisibility(View.VISIBLE);

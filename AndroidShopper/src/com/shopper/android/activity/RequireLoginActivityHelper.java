@@ -1,6 +1,7 @@
 package com.shopper.android.activity;
 
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,20 +15,28 @@ import com.shopper.android.server.ServerRequest;
 import com.shopper.android.server.ServerResponse;
 import com.shopper.android.server.ServerResponseCallback;
 
-public class RequireLoginActivity extends HeaderFooterActivity implements ServerResponseCallback{
+public class RequireLoginActivityHelper implements ServerResponseCallback{
+	
+	private HeaderFooterActivityHelper headerFooterActivityHelper;
+	private Activity owner;
+	private ServerResponseCallback callback;
+	public RequireLoginActivityHelper(Activity owner,ServerResponseCallback callback) {
+		this.owner = owner;
+		this.callback = callback;
+		headerFooterActivityHelper = new HeaderFooterActivityHelper(owner);
+	}
 	private static final String INTENT_LOGOUT = "INTENT_LOGOUT";
 	
 	private final BroadcastReceiver logoutReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			finish();
+			owner.finish();
 		}
 	};
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		findViewById(R.id.button_logout).setOnClickListener(
+		headerFooterActivityHelper.onCreate();
+		owner.findViewById(R.id.button_logout).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
@@ -36,49 +45,45 @@ public class RequireLoginActivity extends HeaderFooterActivity implements Server
 				});
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(INTENT_LOGOUT);
-		registerReceiver(logoutReceiver, intentFilter);
-		if(!ApplicationModel.getInstance(this).isLogedIn()) {
+		owner.registerReceiver(logoutReceiver, intentFilter);
+		if(!ApplicationModel.getInstance(owner).isLogedIn()) {
 			openLoginActivity();
 		}
 	}
-
-	@Override
+	
 	protected void onResume() {
-		super.onResume();
-		if(!ApplicationModel.getInstance(this).isLogedIn()) {
+		if(!ApplicationModel.getInstance(owner).isLogedIn()) {
 			openLoginActivity();
 		}
 	}
 
-	@Override
 	protected void onDestroy() {
-		unregisterReceiver(logoutReceiver);
-		super.onDestroy();
+		owner.unregisterReceiver(logoutReceiver);
 	}
 
 	private void openLoginActivity() {
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivity(intent);
+		Intent intent = new Intent(owner, LoginActivity.class);
+		owner.startActivity(intent);
 		Intent broadcastIntent = new Intent();
 		broadcastIntent.setAction(INTENT_LOGOUT);
-		sendBroadcast(broadcastIntent);
+		owner.sendBroadcast(broadcastIntent);
 	}
 
 	private void logout() {
-		ApplicationModel.getInstance(this).setSessionId(null);
-		ApplicationModel.getInstance(this).setToken(null);
+		ApplicationModel.getInstance(owner).setSessionId(null);
+		ApplicationModel.getInstance(owner).setToken(null);
 		openLoginActivity();
 	}
 
 	protected void getURL(String url){
-		setProgressMessage(R.string.progress);
-		showProgress(true);
-		new ServerRequest().sendGet(url, this, this);
+		headerFooterActivityHelper.setProgressMessage(R.string.progress);
+		headerFooterActivityHelper.showProgress(true);
+		new ServerRequest().sendGet(url, owner, callback);
 	}
 
 	@Override
 	public void gotResponse(ServerResponse response) {
-		showProgress(false);
+		headerFooterActivityHelper.showProgress(false);
 		if (response.getStatus() == SecurityHandler.LOGIN_REQUIRED) {
 			openLoginActivity();
 		}
@@ -86,13 +91,18 @@ public class RequireLoginActivity extends HeaderFooterActivity implements Server
 
 	@Override
 	public void cancelled() {
-		showProgress(false);		
+		headerFooterActivityHelper.showProgress(false);		
 	}
 
 	@Override
 	public void offline() {
 		//TODO: implement this 
 		System.out.println("OFFLINE");
+		headerFooterActivityHelper.showProgress(false);
+	}
+
+	public void inflateLayout(int layout) {
+		headerFooterActivityHelper.inflateLayout(layout);	
 	}
 
 }
