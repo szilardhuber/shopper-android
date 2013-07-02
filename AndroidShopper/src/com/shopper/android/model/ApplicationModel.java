@@ -1,7 +1,8 @@
 package com.shopper.android.model;
 
-import com.shopper.android.Constants;
-import com.shopper.android.util.LocalStorage;
+
+
+import com.shopper.android.server.Constants;
 
 import android.content.Context;
 
@@ -24,8 +25,8 @@ public class ApplicationModel {
     }
     
     public void load(){
-    	this.sessionId = LocalStorage.getProperty(Constants.PREFERENCE_SESSION_ID, context);
-    	this.token = LocalStorage.getProperty(Constants.PREFERENCE_COOKIE, context);
+    	this.sessionId = LocalStorage.getProperty(Constants.HEADER_SESSION_ID, context);
+    	this.token = LocalStorage.getProperty(Constants.HEADER_TOKEN, context);
     }
 
 	public String getSessionId() {
@@ -34,7 +35,7 @@ public class ApplicationModel {
 
 	public void setSessionId(String sessionId) {
 		if ((this.sessionId == null && sessionId != null) || !this.sessionId.equals(sessionId)) {
-			LocalStorage.setProperty(Constants.PREFERENCE_SESSION_ID, sessionId, context);
+			LocalStorage.setProperty(Constants.HEADER_SESSION_ID, sessionId, context);
 		}
 		this.sessionId = sessionId;
 	}
@@ -45,7 +46,7 @@ public class ApplicationModel {
 
 	public void setToken(String cookie) {
 		if ((this.token == null && cookie != null) || !this.token.equals(cookie)) {
-			LocalStorage.setProperty(Constants.PREFERENCE_COOKIE, cookie, context);
+			LocalStorage.setProperty(Constants.HEADER_TOKEN, cookie, context);
 		}
 		this.token = cookie;
 	}

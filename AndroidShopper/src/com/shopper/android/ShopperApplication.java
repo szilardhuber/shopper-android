@@ -6,7 +6,8 @@ import android.app.Application;
 import android.content.res.Configuration;
 
 import com.shopper.android.model.ApplicationModel;
-import com.shopper.android.util.LocalStorage;
+import com.shopper.android.model.LocalStorage;
+import com.shopper.android.util.Logger;
 
 public class ShopperApplication extends Application{
 	
@@ -31,7 +32,7 @@ public class ShopperApplication extends Application{
 				c = getBaseContext().getResources().getConfiguration();
 			}
 			String lang = LocalStorage.getProperty(Constants.PREFERENCE_LANG, this, Constants.DEFAULT_LANG);
-			System.out.println("Lang: "+lang);
+			Logger.debug("Lang: "+lang);
 			c.locale = new Locale(lang);
 			getBaseContext().getResources().updateConfiguration(c, getBaseContext().getResources().getDisplayMetrics());
 		}

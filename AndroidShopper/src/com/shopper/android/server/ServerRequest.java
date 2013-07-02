@@ -34,12 +34,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import com.shopper.android.model.ApplicationModel;
+import com.shopper.android.util.Logger;
 
 public class ServerRequest {
 	private static final String SERVER_ADDRESS = "https://szilardhuber.appspot.com"; 
 	private static final String LOGIN_URL = "/User/Login/api";
 	private static final String REGISTER_URL = "/User/Register/api";
-
+	private static final String CREATE_SHOPPING_LIST_URL = "/api/v1/Lists";
+	private static final String CREATE_ADD_ITEM_URL = "/api/v1/Lists/";
+	
 	private Context context;
 	ServerResponseCallback callback;
 	
@@ -51,22 +54,50 @@ public class ServerRequest {
 			return;
 		}
 		
-		System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
+		Logger.debug("Get request URI: " + SERVER_ADDRESS + url);
 		HttpGet request = new HttpGet(SERVER_ADDRESS + url);
 		addCommonHeaders(request, ctx);
 		AsyncHttpGet get = new AsyncHttpGet();
 		get.execute(request);
 	}
 	
-	public static ServerResponse sendPost(String url, List<NameValuePair> nameValuePairs, Context ctx){
+	public static ServerResponse loginRequest(String email, String password, Context ctx) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	    nameValuePairs.add(new BasicNameValuePair("email", email));
+	    nameValuePairs.add(new BasicNameValuePair("password", password));
+	    nameValuePairs.add(new BasicNameValuePair("remember", "True")); // always remember if mobile client
+		return sendPost(LOGIN_URL,nameValuePairs,ctx);
+	}
+	
+	public static ServerResponse registerRequest(String email, String password, Context ctx) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	    nameValuePairs.add(new BasicNameValuePair("email", email));
+	    nameValuePairs.add(new BasicNameValuePair("password", password));	    
+		return sendPost(REGISTER_URL,nameValuePairs,ctx);
+	}
+
+	public static ServerResponse createShoppingListRequest(String name, Context ctx) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+	    nameValuePairs.add(new BasicNameValuePair("name", name));
+		return sendPost(CREATE_SHOPPING_LIST_URL,nameValuePairs,ctx);
+	}
+	
+	public static ServerResponse addItemRequest(String listId ,String description, String quantity, Context ctx) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+	    nameValuePairs.add(new BasicNameValuePair("description", description));
+	    nameValuePairs.add(new BasicNameValuePair("quantity", quantity));
+		return sendPost(CREATE_ADD_ITEM_URL + listId ,nameValuePairs,ctx);
+	}
+
+	private static ServerResponse sendPost(String url, List<NameValuePair> nameValuePairs, Context ctx){
 		if (!isOnline(ctx)) {			
-			System.out.println("Phone is offline");
+			Logger.debug("Phone is offline");
 			return null;
 		}
 		HttpClient httpclient = getClient();
 	    HttpResponse response;
 		try {
-			System.out.println("Requeest URI: " + SERVER_ADDRESS + url);
+			Logger.debug("Post request URI: " + SERVER_ADDRESS + url);
 			HttpPost request = new HttpPost(SERVER_ADDRESS + url);
 			if (nameValuePairs != null) {				
 				request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -112,32 +143,22 @@ public class ServerRequest {
 			request.addHeader(entry.getKey(), entry.getValue());
 		}
 	}
-	
-	public static ServerResponse loginRequest(String email, String password, Context ctx) {
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-	    nameValuePairs.add(new BasicNameValuePair("email", email));
-	    nameValuePairs.add(new BasicNameValuePair("password", password));
-	    nameValuePairs.add(new BasicNameValuePair("remember", "True")); // always remember if mobile client
-		return sendPost(LOGIN_URL,nameValuePairs,ctx);
-	}
-	
-	public static ServerResponse registerRequest(String email, String password, Context ctx) {
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-	    nameValuePairs.add(new BasicNameValuePair("email", email));
-	    nameValuePairs.add(new BasicNameValuePair("password", password));	    
-		return sendPost(REGISTER_URL,nameValuePairs,ctx);
-	}
-	
+		
 	private static Map<String, String> getCommonHeaders(Context ctx){
 		Map<String, String> ret = new HashMap<String, String>();
 		ret.put(Constants.HEADER_SHOPPER_CLIENT_TYPE, "ANDROID");
 		ret.put(Constants.HEADER_SHOPPER_CLIENT_VERSION, "" + Build.VERSION.SDK_INT);
-		String cookie = ApplicationModel.getInstance(ctx).getToken();
-		if (cookie != null) {			
-			ret.put(Constants.HEADER_COOKIE, cookie);			
+		ApplicationModel appmodel = ApplicationModel.getInstance(ctx);
+		String token = appmodel.getToken();
+		if (token != null) {			
+			ret.put(Constants.HEADER_TOKEN, token);			
+		}
+		String sid = appmodel.getSessionId();
+		if (sid != null) {			
+			ret.put(Constants.HEADER_SESSION_ID, sid);			
 		}
 		for (Map.Entry<String, String> entry : ret.entrySet()) {
-			System.out.println("Request header: "+entry.getKey() + ": " + entry.getValue());
+			Logger.debug("Request header: "+entry.getKey() + ": " + entry.getValue());
 		}
 		return ret;		
 	}

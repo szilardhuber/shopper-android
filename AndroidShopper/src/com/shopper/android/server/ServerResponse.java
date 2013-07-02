@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import android.content.Context;
 
 import com.shopper.android.model.ApplicationModel;
+import com.shopper.android.util.Logger;
 
 public class ServerResponse {
 		
@@ -18,12 +19,12 @@ public class ServerResponse {
 	public ServerResponse(HttpResponse response,Context ctx) throws IllegalStateException, IOException {
 		super();
 		this.status = response.getStatusLine().getStatusCode();;
-		System.out.println("Response status: "+ status);
+		Logger.debug("Response status: "+ status);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
         response.getEntity().writeTo(out);
         out.close();
 		this.content = out.toString();
-		System.out.println("Response content: "+ content);
+		Logger.debug("Response content: "+ content);
 		parseHeaders(response.getAllHeaders(), ctx);
 	}
 
@@ -32,16 +33,16 @@ public class ServerResponse {
 			Header header = headers[i];
 			String headerName = header.getName();		
 			String headerValue = header.getValue();
-			System.out.println(headerName + ": " + headerValue);
+			Logger.debug(headerName + ": " + headerValue);
 			if (headerName.equalsIgnoreCase(Constants.SET_COOKIE)) {				
-				if (headerValue.startsWith(Constants.COOKIE_SESSION_ID)) {
+				if (headerValue.startsWith(Constants.HEADER_SESSION_ID)) {
 					ApplicationModel.getInstance(ctx).setSessionId(headerValue);
-				}else if (headerValue.startsWith(Constants.COOKIE_TOKEN)) {
+				}else if (headerValue.startsWith(Constants.HEADER_TOKEN)) {
 					ApplicationModel.getInstance(ctx).setToken(headerValue);
 				}
 			}
 		}
-		System.out.println(ApplicationModel.getInstance(ctx).toString());
+		Logger.debug(ApplicationModel.getInstance(ctx).toString());
 	}
 
 	public int getStatus() {
