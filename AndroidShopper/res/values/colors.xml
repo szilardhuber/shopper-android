@@ -1,5 +1,10 @@
 <resources>
 
-    <color name="black_overlay">#11000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="activity_background">#ff99cc</color>
+    <color name="field_bg">#ffffff</color>
+    <color name="field_text">#000000</color>
+    <color name="button_text">#ffffff</color>
+    <color name="text_color">#ffffff</color>
 
 </resources>

@@ -18,7 +18,7 @@
         <activity
             android:name="com.shopper.android.activity.Shopper"
             android:label=""
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +27,7 @@
         <activity
             android:name="com.shopper.android.activity.LoginActivity"
             android:label=""
-            android:theme="@style/LoginFormContainer" >
+            android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
             android:name="com.shopper.android.activity.ShoppingListActivity"

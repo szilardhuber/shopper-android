@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/login_progress_signing_in"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="bold"  />
     </LinearLayout>
 
     <!-- Login form -->
@@ -34,10 +34,13 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="@color/activity_background"
+        tools:context=".LoginActivity" >
 
         <LinearLayout
-            style="@style/LoginFormContainer"
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
             android:orientation="vertical" >
             <Button
                 android:id="@+id/swich_mode"
@@ -47,6 +50,8 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
+                android:textColor="@color/button_text"
+	            android:textSize="@dimen/small_text_size"
                 android:text="@string/action_swich_register" />
             
             <EditText
@@ -91,6 +96,8 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
+                android:textColor="@color/button_text"
+	            android:textSize="@dimen/small_text_size"
                 android:text="@string/action_sign_in" />
         </LinearLayout>
     </ScrollView>
