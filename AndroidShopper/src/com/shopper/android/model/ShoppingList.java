@@ -13,6 +13,11 @@ public class ShoppingList {
 		this.id = jsonList.getInt("id");
 	}
 
+	public ShoppingList(int id, String name) {
+		this.name = name;
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}
