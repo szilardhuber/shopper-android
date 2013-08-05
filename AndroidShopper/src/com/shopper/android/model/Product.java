@@ -3,12 +3,12 @@ package com.shopper.android.model;
 public class Product {
 
 	private String name;
-	private double quantity;
-	
-	public Product(String name, double quantity) {
+	private long barcode;
+
+	public Product(String name, long barcode) {
 		super();
 		this.name = name;
-		this.quantity = quantity;
+		this.barcode = barcode;
 	}
 
 	public String getName() {
@@ -19,9 +19,17 @@ public class Product {
 		this.name = name;
 	}
 
+	public long getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(long barcode) {
+		this.barcode = barcode;
+	}
+
 	@Override
 	public String toString() {
-		return "Product [name=" + name + ", quantity=" + quantity + "]";
+		return "Product [name=" + name + ", barcode=" + barcode + "]";
 	}
-	
+
 }

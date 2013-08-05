@@ -2,24 +2,33 @@ package com.shopper.android.model;
 
 public class ShoppingListItem {
 
-	private ShoppingList shoppingList;
+	private long id;
 	private Product product;
-	private double quantity;
-	
-	public ShoppingListItem(ShoppingList shoppingList, Product product,
-			double quantity) {
+	private int quantity;
+	private int rank;
+	private int purchased;
+	private long shoppingListId;
+	private String note;
+
+	public ShoppingListItem(long id, String description, int quantity,
+			int rank, int purchased, long shoppingListId, long productBarcode,
+			String note) {
 		super();
-		this.shoppingList = shoppingList;
-		this.product = product;
+		this.id = id;
+		this.product = new Product(description, productBarcode);
 		this.quantity = quantity;
+		this.rank = rank;
+		this.purchased = purchased;
+		this.shoppingListId = shoppingListId;
+		this.note = note;
 	}
 
-	public ShoppingList getShoppingList() {
-		return shoppingList;
+	public long getId() {
+		return id;
 	}
 
-	public void setShoppingList(ShoppingList shoppingList) {
-		this.shoppingList = shoppingList;
+	public void setId(long ret) {
+		this.id = ret;
 	}
 
 	public Product getProduct() {
@@ -30,11 +39,44 @@ public class ShoppingListItem {
 		this.product = product;
 	}
 
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public int getPurchased() {
+		return purchased;
+	}
+
+	public void setPurchased(int purchased) {
+		this.purchased = purchased;
+	}
+
+	public long getShoppingListId() {
+		return shoppingListId;
+	}
+
+	public void setShoppingListId(long shoppingListId) {
+		this.shoppingListId = shoppingListId;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 }
