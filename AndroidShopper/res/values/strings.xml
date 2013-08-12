@@ -1,30 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Shopper</string>
-    <string name="dummy_content">CONTENT COMES HERE</string>
-    <string name="login_button">Sign in</string>
-    <string name="logout_button">Log out</string>
-    <string name="register_button">Register</string>
-    <string name="progress">Loading&#8230;</string>
-    
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_password2">Re-type password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_register">Register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_swich_register">Not yet registered</string>
-    <string name="action_swich_login">Have account, sign in</string>
-    <string name="menu_forgot_password">Recover lost password</string>
-    <string name="login_progress_signing_in">Signing in&#8230;</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short (minimum 8 characters)</string>
-    <string name="error_password_mismatch">Passwords must be the same!</string>
-    <string name="error_incorrect_data">Operation failed. Check fields and try again.</string>
-    <string name="error_unverified_registration">Unverified registration. Please check your mails.</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_io">Unable to connect to the server. Check your internet connection.</string>
-    
-        
+    <string name="app_name">Shopzenion</string>
 </resources>
