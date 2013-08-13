@@ -3,19 +3,22 @@ package com.shopzenion.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.shopzenion.android.model.ShoppingList;
-import com.shopzenion.android.model.ShoppingListItem;
-import com.shopzenion.android.util.Logger;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.shopzenion.android.Constants;
+import com.shopzenion.android.R;
+import com.shopzenion.android.model.ShoppingList;
+import com.shopzenion.android.model.ShoppingListItem;
+import com.shopzenion.android.util.Logger;
+
 public class DBHandler extends SQLiteOpenHelper {
 
 	private static DBHandler instance = null;
+	private Context ctx;
 
 	public static DBHandler getInstance(Context ctx) {
 		if (instance == null) {
@@ -26,6 +29,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	private DBHandler(Context ctx) {
 		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
+		this.ctx = ctx;
 	}
 
 	// Database Name
@@ -60,8 +64,8 @@ public class DBHandler extends SQLiteOpenHelper {
 				+ "note TEXT,"
 				+ "FOREIGN KEY (shopping_list) REFERENCES shopping_list(id))";
 		db.execSQL(create_table_shopping_list_items);
-		long shoppingListId = addShoppingList(new ShoppingList(1,
-				"Grocery list"), db);
+		long shoppingListId = addShoppingList(new ShoppingList(Constants.DEFAULT_SHOPPING_LIST_ID,
+				ctx.getString(R.string.default_shopping_list_name)), db);
 		addTestData(shoppingListId, db);
 	}
 

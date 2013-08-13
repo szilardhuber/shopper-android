@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Shopzenion</string>
+    <string name="default_shopping_list_name">Grocery List</string>
+    <string name="add_new_item_hint">Tap to add</string>
 </resources>

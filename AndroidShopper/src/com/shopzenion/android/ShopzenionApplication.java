@@ -22,7 +22,7 @@ public class ShopzenionApplication extends Application{
 	    public void onCreate()
 	    {
 	        super.onCreate();
-	        LocalStorage.setProperty(Constants.PREFERENCE_LANG, "HU", this);
+	        LocalStorage.setProperty(Constants.PREFERENCE_LANG, Constants.DEFAULT_LANG, this);
 	        setLang(null);
 	        ApplicationModel.getInstance(this).load();
 	    }
