@@ -12,15 +12,18 @@ import android.widget.TextView;
 import com.ericharlow.DragNDrop.DropListener;
 import com.ericharlow.DragNDrop.RemoveListener;
 import com.shopzenion.android.model.ShoppingListItem;
+import com.shopzenion.database.DBHandler;
 
 public final class ShoppingListAdapter extends BaseAdapter implements
 		RemoveListener, DropListener {
 
 	private LayoutInflater inflater;
+	private Context ctx;
 	private List<ShoppingListItem> listItems;
 
 	public ShoppingListAdapter(Context context, List<ShoppingListItem> listItems) {
 		inflater = LayoutInflater.from(context);
+		this.ctx = context;
 		this.listItems = listItems;
 	}
 
@@ -63,6 +66,8 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 		if (position < 0 || position > listItems.size()){			
 			return;
 		}
+		ShoppingListItem temp = listItems.get(position);
+		DBHandler.getInstance(ctx).removeShoppingListItem(temp.getId());
 		listItems.remove(position);
 	}
 
@@ -70,5 +75,6 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 		ShoppingListItem temp = listItems.get(from);
 		listItems.remove(from);
 		listItems.add(to, temp);
+		DBHandler.getInstance(ctx).moveShoppingListItem(temp.getShoppingListId(), temp.getId(), from, to);		
 	}
 }

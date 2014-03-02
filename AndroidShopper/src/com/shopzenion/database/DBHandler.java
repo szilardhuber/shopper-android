@@ -17,6 +17,7 @@ import com.shopzenion.android.util.Logger;
 
 public class DBHandler extends SQLiteOpenHelper {
 
+	private static final String TABLE_SHOPPING_LIST_ITEM = "shopping_list_item";
 	private static DBHandler instance = null;
 	private Context ctx;
 
@@ -40,12 +41,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	private static final String SELECT_SHOPPING_LIST_ITEMS = "SELECT id, description, quantity, rank, "
 			+ "purchased, product_barcode, note "
-			+ "FROM shopping_list_item WHERE shopping_list = ? "
+			+ "FROM "
+			+ TABLE_SHOPPING_LIST_ITEM
+			+ " WHERE shopping_list = ? "
 			+ "ORDER BY rank";
 
 	private static final String SELECT_SHOPPING_LIST_ITEM = "SELECT description, quantity, rank, "
 			+ "purchased, shopping_list, product_barcode, note "
-			+ "FROM shopping_list_item WHERE id = ? ";
+			+ "FROM "
+			+ TABLE_SHOPPING_LIST_ITEM + " WHERE id = ? ";
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -53,19 +57,19 @@ public class DBHandler extends SQLiteOpenHelper {
 				+ "id INTEGER PRIMARY KEY, title TEXT NOT NULL,"
 				+ "shopping_date INTEGER )";
 		db.execSQL(create_table_shopping_list);
-		String create_table_shopping_list_items = "CREATE TABLE shopping_list_item ("
+		String create_table_shopping_list_items = "CREATE TABLE "
+				+ TABLE_SHOPPING_LIST_ITEM + " ("
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "description TEXT NOT NULL,"
-				+ "quantity INTEGER NOT NULL,"
+				+ "description TEXT NOT NULL," + "quantity INTEGER NOT NULL,"
 				+ "rank INTEGER NOT NULL,"
 				+ "purchased INTEGER NOT NULL DEFAULT 0,"
-				+ "shopping_list INTEGER,"
-				+ "product_barcode INTEGER,"
+				+ "shopping_list INTEGER," + "product_barcode INTEGER,"
 				+ "note TEXT,"
 				+ "FOREIGN KEY (shopping_list) REFERENCES shopping_list(id))";
 		db.execSQL(create_table_shopping_list_items);
-		long shoppingListId = addShoppingList(new ShoppingList(Constants.DEFAULT_SHOPPING_LIST_ID,
-				ctx.getString(R.string.default_shopping_list_name)), db);
+		long shoppingListId = addShoppingList(
+				new ShoppingList(Constants.DEFAULT_SHOPPING_LIST_ID,
+						ctx.getString(R.string.default_shopping_list_name)), db);
 		addTestData(shoppingListId, db);
 	}
 
@@ -133,7 +137,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		values.put("product_barcode", shoppingListItem.getProduct()
 				.getBarcode());
 		values.put("note", shoppingListItem.getNote());
-		long ret = db.insert("shopping_list_item", null, values);
+		long ret = db.insert(TABLE_SHOPPING_LIST_ITEM, null, values);
 		shoppingListItem.setId(ret);
 		return ret;
 	}
@@ -176,4 +180,11 @@ public class DBHandler extends SQLiteOpenHelper {
 		return item;
 	}
 
+	public void moveShoppingListItem(long shoppingListId, long shoppingListItemId,int from, int to ) {
+		// TODO
+	}
+
+	public void removeShoppingListItem(long shoppingListId) {
+		// TODO	
+	}
 }
