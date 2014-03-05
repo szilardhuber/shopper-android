@@ -65,8 +65,8 @@ public class ShoppingListActivity extends ListActivity {
     private DragListener mDragListener =
     	new DragListener() {
 
-    	int backgroundColor = 0xeeff0010;
-    	int defaultBackgroundColor = 0xee00ff10;
+    	int backgroundColor = 0xee6f510;
+    	int defaultBackgroundColor = 0xee6f510;
     	
 			public void onDrag(int x, int y, ListView listView) {
 				// TODO Auto-generated method stub

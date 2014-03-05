@@ -51,6 +51,10 @@ public class DBHandler extends SQLiteOpenHelper {
 			+ "FROM "
 			+ TABLE_SHOPPING_LIST_ITEM + " WHERE id = ? ";
 
+	private static final String UPDATE_RANK="UPDATE "+TABLE_SHOPPING_LIST_ITEM+" SET rank=? WHERE id = ?";
+	private static final String PUSH_RANK="UPDATE "+TABLE_SHOPPING_LIST_ITEM+" SET rank=rank+1 WHERE shopping_list = ? AND rank > ?";
+	private static final String PULL_RANK="UPDATE "+TABLE_SHOPPING_LIST_ITEM+" SET rank=rank-1 WHERE shopping_list = ? AND rank < ?";
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String create_table_shopping_list = "CREATE TABLE shopping_list ( "
@@ -70,7 +74,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		long shoppingListId = addShoppingList(
 				new ShoppingList(Constants.DEFAULT_SHOPPING_LIST_ID,
 						ctx.getString(R.string.default_shopping_list_name)), db);
-		addTestData(shoppingListId, db);
+		//addTestData(shoppingListId, db);
 	}
 
 	@Override
@@ -109,9 +113,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if (cursor.moveToFirst()) {
 			do {
-				ShoppingList hs = new ShoppingList(cursor.getInt(0),
+				ShoppingList sl = new ShoppingList(cursor.getInt(0),
 						cursor.getString(1));
-				ret.add(hs);
+				ret.add(sl);
 			} while (cursor.moveToNext());
 		}
 		db.close();
@@ -180,11 +184,39 @@ public class DBHandler extends SQLiteOpenHelper {
 		return item;
 	}
 
+	private void setRank(long shoppingListItemId,int rank) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Object[] bindArgs={rank, shoppingListItemId};
+		db.execSQL(UPDATE_RANK, bindArgs);
+	}
+	
+	private void pushRank(long shoppingListId,int rank) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Object[] bindArgs={shoppingListId, rank};
+		db.execSQL(PUSH_RANK, bindArgs);
+	}
+	
+	private void pullRank(long shoppingListId,int rank) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Object[] bindArgs={shoppingListId, rank};
+		db.execSQL(PULL_RANK, bindArgs);
+	}
+	
 	public void moveShoppingListItem(long shoppingListId, long shoppingListItemId,int from, int to ) {
 		// TODO
+		if(from < to){
+			pullRank(shoppingListId, to);
+			setRank(shoppingListItemId, to);
+		} else if(from > to){
+			pushRank(shoppingListId, to);
+			setRank(shoppingListItemId, to);
+		} else {
+			// not a real move
+		}
 	}
 
 	public void removeShoppingListItem(long shoppingListId) {
-		// TODO	
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_SHOPPING_LIST_ITEM, "id = " + shoppingListId, null);
 	}
 }
