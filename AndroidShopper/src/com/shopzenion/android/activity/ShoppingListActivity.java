@@ -28,9 +28,9 @@ public class ShoppingListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dragndroplistview);
-		TextView shoppingListName = (TextView) findViewById(R.id.shoppingListName);
+/*		TextView shoppingListName = (TextView) findViewById(R.id.shoppingListName);
 		shoppingListName.setText(R.string.default_shopping_list_name);
-
+*/
 		dbHandler = new DBHandler(this);
 		dbHandler.open();
 
