@@ -18,13 +18,13 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 		RemoveListener, DropListener {
 
 	private LayoutInflater inflater;
-	private Context ctx;
 	private List<ShoppingListItem> listItems;
-
-	public ShoppingListAdapter(Context context, List<ShoppingListItem> listItems) {
-		inflater = LayoutInflater.from(context);
-		this.ctx = context;
+	private DBHandler dbHandler;
+	
+	public ShoppingListAdapter(Context context, List<ShoppingListItem> listItems, DBHandler dbHandler) {
+		inflater = LayoutInflater.from(context);		
 		this.listItems = listItems;
+		this.dbHandler = dbHandler;
 	}
 
 	public int getCount() {
@@ -67,7 +67,7 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 			return;
 		}
 		ShoppingListItem temp = listItems.get(position);
-		DBHandler.getInstance(ctx).removeShoppingListItem(temp.getId());
+		dbHandler.removeShoppingListItem(temp.getId());
 		listItems.remove(position);
 	}
 
@@ -75,6 +75,6 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 		ShoppingListItem temp = listItems.get(from);
 		listItems.remove(from);
 		listItems.add(to, temp);
-		DBHandler.getInstance(ctx).moveShoppingListItem(temp.getShoppingListId(), temp.getId(), from, to);		
+		dbHandler.moveShoppingListItem(temp.getShoppingListId(), temp.getId(), from, to);		
 	}
 }
