@@ -8,10 +8,6 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.ericharlow.DragNDrop.DragListener;
-import com.ericharlow.DragNDrop.DragNDropListView;
-import com.ericharlow.DragNDrop.DropListener;
-import com.ericharlow.DragNDrop.RemoveListener;
 import com.shopzenion.android.R;
 import com.shopzenion.android.model.ShoppingListItem;
 import com.shopzenion.database.DBConstant;
@@ -25,7 +21,7 @@ public class ShoppingListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.dragndroplistview);
+		setContentView(R.layout.shopping_list);
 		/*
 		 * TextView shoppingListName = (TextView)
 		 * findViewById(R.id.shoppingListName);
@@ -43,37 +39,16 @@ public class ShoppingListActivity extends ListActivity {
 
 		ListView listView = getListView();
 
-		if (listView instanceof DragNDropListView) {
-			((DragNDropListView) listView).setDropListener(mDropListener);
-			((DragNDropListView) listView).setRemoveListener(mRemoveListener);
-			((DragNDropListView) listView).setDragListener(mDragListener);
+		if (listView instanceof ShopingListListView) {
+			((ShopingListListView) listView)
+					.setListItemListener(listItemListener);
 		}
-
-		setListAdapter(new ShoppingListAdapter(this, content, dbHandler));
+		setListAdapter(new ShoppingListAdapter(this, content, dbHandler,
+				R.layout.shopping_list_item));
 
 	}
 
-	private DropListener mDropListener = new DropListener() {
-		public void onDrop(int from, int to) {
-			ListAdapter adapter = getListAdapter();
-			if (adapter instanceof ShoppingListAdapter) {
-				((ShoppingListAdapter) adapter).onDrop(from, to);
-				getListView().invalidateViews();
-			}
-		}
-	};
-
-	private RemoveListener mRemoveListener = new RemoveListener() {
-		public void onRemove(int which) {
-			ListAdapter adapter = getListAdapter();
-			if (adapter instanceof ShoppingListAdapter) {
-				((ShoppingListAdapter) adapter).onRemove(which);
-				getListView().invalidateViews();
-			}
-		}
-	};
-
-	private DragListener mDragListener = new DragListener() {
+	private ListItemListener listItemListener = new ListItemListener() {
 		int backgroundColor = 0xee6f510;
 		int defaultBackgroundColor = 0xee6f510;
 
@@ -81,7 +56,7 @@ public class ShoppingListActivity extends ListActivity {
 			// TODO Auto-generated method stub
 		}
 
-		public void onStartDrag(View itemView) {
+		public void onDragStart(View itemView) {
 			itemView.setVisibility(View.INVISIBLE);
 			defaultBackgroundColor = itemView.getDrawingCacheBackgroundColor();
 			itemView.setBackgroundColor(backgroundColor);
@@ -92,7 +67,7 @@ public class ShoppingListActivity extends ListActivity {
 			 */
 		}
 
-		public void onStopDrag(View itemView) {
+		public void onDragStop(View itemView) {
 			itemView.setVisibility(View.VISIBLE);
 			itemView.setBackgroundColor(defaultBackgroundColor);
 			/*
@@ -100,6 +75,22 @@ public class ShoppingListActivity extends ListActivity {
 			 * itemView.findViewById(R.id.ImageView01); if (iv != null)
 			 * iv.setVisibility(View.VISIBLE);
 			 */}
+
+		public void onDrop(int from, int to) {
+			ListAdapter adapter = getListAdapter();
+			if (adapter instanceof ShoppingListAdapter) {
+				((ShoppingListAdapter) adapter).move(from, to);
+				getListView().invalidateViews();
+			}
+		}
+
+		public void onRemove(int which) {
+			ListAdapter adapter = getListAdapter();
+			if (adapter instanceof ShoppingListAdapter) {
+				((ShoppingListAdapter) adapter).remove(which);
+				getListView().invalidateViews();
+			}
+		}
 
 	};
 

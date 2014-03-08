@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_hight">86dp</dimen>
+    <dimen name="list_item_font_size">20sp</dimen>
+    <dimen name="small_circle_radius">11sp</dimen>
+    <dimen name="big_circle_radius">53sp</dimen>
+    <dimen name="list_item_padding">20dp</dimen>
+    <dimen name="list_header_image_height">20dp</dimen>
+</resources>

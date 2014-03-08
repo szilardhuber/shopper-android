@@ -9,22 +9,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.ericharlow.DragNDrop.DropListener;
-import com.ericharlow.DragNDrop.RemoveListener;
+import com.shopzenion.android.R;
 import com.shopzenion.android.model.ShoppingListItem;
 import com.shopzenion.database.DBHandler;
 
-public final class ShoppingListAdapter extends BaseAdapter implements
-		RemoveListener, DropListener {
+public final class ShoppingListAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private List<ShoppingListItem> listItems;
 	private DBHandler dbHandler;
-	
-	public ShoppingListAdapter(Context context, List<ShoppingListItem> listItems, DBHandler dbHandler) {
-		inflater = LayoutInflater.from(context);		
+	private int shoppingListItem;
+
+	public ShoppingListAdapter(Context context,
+			List<ShoppingListItem> listItems, DBHandler dbHandler,
+			int shoppingListItem) {
+		inflater = LayoutInflater.from(context);
 		this.listItems = listItems;
 		this.dbHandler = dbHandler;
+		this.shoppingListItem = shoppingListItem;
 	}
 
 	public int getCount() {
@@ -42,19 +44,18 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(
-					android.R.layout.simple_list_item_1, null);
+			convertView = inflater.inflate(shoppingListItem, null);
 			holder = new ViewHolder();
-			holder.text = (TextView) convertView.findViewById(android.R.id.text1);
+			holder.text = (TextView) convertView.findViewById(R.id.itemname);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		ShoppingListItem shoppingListItem = listItems.get(position);
-		
+
 		String name = shoppingListItem.getProduct().getName();
 		holder.text.setText(name);
-
+		convertView.setBackgroundColor(0x00ff00);
 		return convertView;
 	}
 
@@ -62,8 +63,8 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 		TextView text;
 	}
 
-	public void onRemove(int position) {
-		if (position < 0 || position > listItems.size()){			
+	public void remove(int position) {
+		if (position < 0 || position > listItems.size()) {
 			return;
 		}
 		ShoppingListItem temp = listItems.get(position);
@@ -71,10 +72,11 @@ public final class ShoppingListAdapter extends BaseAdapter implements
 		listItems.remove(position);
 	}
 
-	public void onDrop(int from, int to) {
+	public void move(int from, int to) {
 		ShoppingListItem temp = listItems.get(from);
 		listItems.remove(from);
 		listItems.add(to, temp);
-		dbHandler.moveShoppingListItem(temp.getShoppingListId(), temp.getId(), from, to);		
+		dbHandler.moveShoppingListItem(temp.getShoppingListId(), temp.getId(),
+				from, to);
 	}
 }
