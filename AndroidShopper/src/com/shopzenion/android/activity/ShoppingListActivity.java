@@ -5,10 +5,8 @@ import java.util.List;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ericharlow.DragNDrop.DragListener;
 import com.ericharlow.DragNDrop.DragNDropListView;
@@ -28,9 +26,11 @@ public class ShoppingListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dragndroplistview);
-/*		TextView shoppingListName = (TextView) findViewById(R.id.shoppingListName);
-		shoppingListName.setText(R.string.default_shopping_list_name);
-*/
+		/*
+		 * TextView shoppingListName = (TextView)
+		 * findViewById(R.id.shoppingListName);
+		 * shoppingListName.setText(R.string.default_shopping_list_name);
+		 */
 		dbHandler = new DBHandler(this);
 		dbHandler.open();
 
@@ -74,7 +74,6 @@ public class ShoppingListActivity extends ListActivity {
 	};
 
 	private DragListener mDragListener = new DragListener() {
-
 		int backgroundColor = 0xee6f510;
 		int defaultBackgroundColor = 0xee6f510;
 
@@ -86,18 +85,21 @@ public class ShoppingListActivity extends ListActivity {
 			itemView.setVisibility(View.INVISIBLE);
 			defaultBackgroundColor = itemView.getDrawingCacheBackgroundColor();
 			itemView.setBackgroundColor(backgroundColor);
-			ImageView iv = (ImageView) itemView.findViewById(R.id.ImageView01);
-			if (iv != null)
-				iv.setVisibility(View.INVISIBLE);
+			/*
+			 * ImageView iv = (ImageView)
+			 * itemView.findViewById(R.id.ImageView01); if (iv != null)
+			 * iv.setVisibility(View.INVISIBLE);
+			 */
 		}
 
 		public void onStopDrag(View itemView) {
 			itemView.setVisibility(View.VISIBLE);
 			itemView.setBackgroundColor(defaultBackgroundColor);
-			ImageView iv = (ImageView) itemView.findViewById(R.id.ImageView01);
-			if (iv != null)
-				iv.setVisibility(View.VISIBLE);
-		}
+			/*
+			 * ImageView iv = (ImageView)
+			 * itemView.findViewById(R.id.ImageView01); if (iv != null)
+			 * iv.setVisibility(View.VISIBLE);
+			 */}
 
 	};
 

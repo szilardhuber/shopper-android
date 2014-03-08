@@ -16,12 +16,10 @@ import com.shopzenion.android.util.Logger;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-	private Context ctx;
 	private SQLiteDatabase db;
 
 	public DBHandler(Context ctx) {
 		super(ctx, DBConstant.DATABASE_NAME, null, DBConstant.DATABASE_VERSION);
-		this.ctx = ctx;
 	}
 
 	public void open() throws SQLException {

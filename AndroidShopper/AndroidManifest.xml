@@ -5,8 +5,8 @@
     android:versionName="1.0">
 
     <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,7 +14,7 @@
     <application
         android:name="ShopzenionApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher" 
+        android:icon="@drawable/shopzenion" 
         android:theme="@android:style/Theme.NoTitleBar">
         <activity
             android:name="com.shopzenion.android.activity.ShoppingListActivity"
