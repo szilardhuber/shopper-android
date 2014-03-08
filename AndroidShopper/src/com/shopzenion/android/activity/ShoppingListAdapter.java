@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.shopzenion.android.R;
 import com.shopzenion.android.model.ShoppingListItem;
+import com.shopzenion.android.util.Logger;
 import com.shopzenion.database.DBHandler;
 
 public final class ShoppingListAdapter extends BaseAdapter {
@@ -42,18 +44,23 @@ public final class ShoppingListAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ShoppingListItem currentItem = listItems.get(position);
 		ViewHolder holder;
 		if (convertView == null) {
 			convertView = inflater.inflate(shoppingListItem, null);
 			holder = new ViewHolder();
 			holder.text = (TextView) convertView.findViewById(R.id.itemname);
 			convertView.setTag(holder);
+
+			Button quantity = (Button) convertView.findViewById(R.id.quantity);
+			Logger.debug("currentItem: " + currentItem);
+			quantity.setText("" + currentItem.getQuantity());
+
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		ShoppingListItem shoppingListItem = listItems.get(position);
 
-		String name = shoppingListItem.getProduct().getName();
+		String name = currentItem.getProduct().getName();
 		holder.text.setText(name);
 		convertView.setBackgroundColor(0x00ff00);
 		return convertView;

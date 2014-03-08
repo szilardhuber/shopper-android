@@ -3,6 +3,7 @@
 
     <color name="font_color">#ededed</color>
     <color name="background_start_color">#6fa510</color>
+    <color name="background_end_color">#486b08</color>
     <color name="background_header_color">#222222</color>
 
 </resources>

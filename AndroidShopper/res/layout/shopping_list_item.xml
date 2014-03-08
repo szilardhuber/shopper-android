@@ -21,12 +21,12 @@
             android:gravity="center_vertical" />
 
         <Button
+            android:id="@+id/quantity"
             android:layout_width="@dimen/big_circle_radius"
             android:layout_height="@dimen/big_circle_radius"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/list_item_padding"
             android:background="@drawable/big_circle_button"
-            android:text="23"
             android:textColor="@color/font_color"
             android:textSize="@dimen/list_item_font_size" />
 

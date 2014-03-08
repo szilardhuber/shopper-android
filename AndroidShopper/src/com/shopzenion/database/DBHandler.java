@@ -55,11 +55,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	public void addTestData(long shoppingListId) {
 		for (int i = 0; i < 10; i++) {
-			ShoppingListItem testItem = new ShoppingListItem(0, "Item " + i, i,
-					i, 0, shoppingListId, 0, null);
+			int quantity = i * 12;
+			ShoppingListItem testItem = new ShoppingListItem(0, "Item " + i,
+					quantity, i, 0, shoppingListId, 0, null);
 			addShoppingListItem(testItem);
 		}
-		Logger.debug("dbHandler3");
 	}
 
 	public long addShoppingList(ShoppingList shoppingList) {
@@ -121,6 +121,18 @@ public class DBHandler extends SQLiteOpenHelper {
 						cursor.getLong(5), cursor.getString(6));
 				ret.add(item);
 			} while (cursor.moveToNext());
+		}
+		return ret;
+	}
+
+	public int getDifferentQuantityCount(int shoppingListId) {
+		int ret = 1;
+
+		Cursor cursor = db.rawQuery(DBConstant.DIFFERENT_QUANTITY_COUNT,
+				new String[] { String.valueOf(shoppingListId) });
+
+		if (cursor.moveToFirst()) {
+			ret = cursor.getInt(2);
 		}
 		return ret;
 	}

@@ -79,4 +79,12 @@ public class ShoppingListItem {
 		this.note = note;
 	}
 
+	@Override
+	public String toString() {
+		return "ShoppingListItem [id=" + id + ", product=" + product
+				+ ", quantity=" + quantity + ", rank=" + rank + ", purchased="
+				+ purchased + ", shoppingListId=" + shoppingListId + ", note="
+				+ note + "]";
+	}
+
 }
