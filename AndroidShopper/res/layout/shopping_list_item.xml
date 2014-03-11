@@ -5,9 +5,9 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/item"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/list_item_hight"
-        android:background="@color/background_start_color"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/list_item_padding"
         android:paddingRight="@dimen/list_item_padding" >

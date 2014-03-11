@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shopzenion.android.R;
 import com.shopzenion.android.model.ShoppingListItem;
+import com.shopzenion.android.util.GradientColor;
 import com.shopzenion.android.util.Logger;
 import com.shopzenion.database.DBHandler;
 
@@ -21,6 +23,7 @@ public final class ShoppingListAdapter extends BaseAdapter {
 	private List<ShoppingListItem> listItems;
 	private DBHandler dbHandler;
 	private int shoppingListItem;
+	private GradientColor gradientColor;
 
 	public ShoppingListAdapter(Context context,
 			List<ShoppingListItem> listItems, DBHandler dbHandler,
@@ -29,6 +32,9 @@ public final class ShoppingListAdapter extends BaseAdapter {
 		this.listItems = listItems;
 		this.dbHandler = dbHandler;
 		this.shoppingListItem = shoppingListItem;
+		this.gradientColor = new GradientColor(context.getResources().getColor(
+				R.color.background_start_color), context.getResources()
+				.getColor(R.color.background_end_color), listItems.size());
 	}
 
 	public int getCount() {
@@ -62,7 +68,11 @@ public final class ShoppingListAdapter extends BaseAdapter {
 
 		String name = currentItem.getProduct().getName();
 		holder.text.setText(name);
-		convertView.setBackgroundColor(0x00ff00);
+		LinearLayout item = (LinearLayout) convertView.findViewById(R.id.item);
+		int itemColor = gradientColor.getColor(position);
+		Logger.debug("Color " + position + ": "
+				+ Integer.toHexString(itemColor));
+		item.setBackgroundColor(itemColor);
 		return convertView;
 	}
 
