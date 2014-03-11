@@ -9,9 +9,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.shopzenion.android.R;
+import com.shopzenion.android.database.DBConstant;
+import com.shopzenion.android.database.DBHandler;
 import com.shopzenion.android.model.ShoppingListItem;
-import com.shopzenion.database.DBConstant;
-import com.shopzenion.database.DBHandler;
 
 public class ShoppingListActivity extends ListActivity {
 	private DBHandler dbHandler;
@@ -32,7 +32,7 @@ public class ShoppingListActivity extends ListActivity {
 
 		// TODO: remove this later
 		dbHandler.addDefaultShoppingList();
-		dbHandler.addTestData(DBConstant.DEFAULT_SHOPPING_LIST_ID);
+		// dbHandler.addTestData(DBConstant.DEFAULT_SHOPPING_LIST_ID);
 
 		List<ShoppingListItem> content = dbHandler
 				.getShoppingListItems(DBConstant.DEFAULT_SHOPPING_LIST_ID);

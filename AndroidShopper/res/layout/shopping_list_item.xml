@@ -30,12 +30,15 @@
             android:textColor="@color/font_color"
             android:textSize="@dimen/list_item_font_size" />
 
-        <TextView
+        <EditText
             android:id="@+id/itemname"
+            android:inputType="text"
+            android:imeOptions="actionDone"
             android:layout_width="0dp"
             android:layout_height="23dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.5"
+            android:background="@android:color/transparent"
             android:textColor="@color/font_color" 
             android:textSize="@dimen/list_item_font_size"/>
     </LinearLayout>

@@ -3,19 +3,22 @@ package com.shopzenion.android.activity;
 import java.util.List;
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shopzenion.android.R;
+import com.shopzenion.android.database.DBHandler;
 import com.shopzenion.android.model.ShoppingListItem;
 import com.shopzenion.android.util.GradientColor;
 import com.shopzenion.android.util.Logger;
-import com.shopzenion.database.DBHandler;
 
 public final class ShoppingListAdapter extends BaseAdapter {
 
@@ -55,7 +58,7 @@ public final class ShoppingListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(shoppingListItem, null);
 			holder = new ViewHolder();
-			holder.text = (TextView) convertView.findViewById(R.id.itemname);
+			holder.text = (EditText) convertView.findViewById(R.id.itemname);
 			convertView.setTag(holder);
 
 			Button quantity = (Button) convertView.findViewById(R.id.quantity);
@@ -66,18 +69,21 @@ public final class ShoppingListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		String name = currentItem.getProduct().getName();
-		holder.text.setText(name);
+		// colorize background
 		LinearLayout item = (LinearLayout) convertView.findViewById(R.id.item);
 		int itemColor = gradientColor.getColor(position);
 		Logger.debug("Color " + position + ": "
 				+ Integer.toHexString(itemColor));
 		item.setBackgroundColor(itemColor);
+
+		String name = currentItem.getProduct().getName();
+		holder.text.setText(name);
+		makeItemEditable(holder.text, currentItem.getId());
 		return convertView;
 	}
 
 	static class ViewHolder {
-		TextView text;
+		EditText text;
 	}
 
 	public void remove(int position) {
@@ -95,5 +101,29 @@ public final class ShoppingListAdapter extends BaseAdapter {
 		listItems.add(to, temp);
 		dbHandler.moveShoppingListItem(temp.getShoppingListId(), temp.getId(),
 				from, to);
+	}
+
+	private void makeItemEditable(EditText et, final long itemId) {
+		et.setFocusable(true);
+		et.setEnabled(true);
+		et.setClickable(true);
+		et.setFocusableInTouchMode(true);
+		et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				Logger.debug("action: " + actionId);
+				if (actionId == EditorInfo.IME_ACTION_SEARCH
+						|| actionId == EditorInfo.IME_ACTION_DONE
+						|| event.getAction() == KeyEvent.ACTION_DOWN
+						&& event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+					Logger.debug("DOBE");
+					dbHandler.setDescription(itemId, v.getText().toString());
+
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 }

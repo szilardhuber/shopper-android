@@ -1,4 +1,4 @@
-package com.shopzenion.database;
+package com.shopzenion.android.database;
 
 public class DBConstant {
 
@@ -53,7 +53,6 @@ public class DBConstant {
 	public static final String PULL_RANK = "UPDATE " + TABLE_SHOPPING_LIST_ITEM
 			+ " SET rank=rank-1 WHERE shopping_list = ? AND rank < ?;";
 
-	public static final String DIFFERENT_QUANTITY_COUNT = "SELECT DISTINCT quantity, count(quantity) "
-			+ TABLE_SHOPPING_LIST_ITEM
-			+ " WHERE shopping_list = ? GROUP BY quantity;";
+	public static final String UPDATE_ITEM_NAME = "UPDATE "
+			+ TABLE_SHOPPING_LIST_ITEM + " SET description = ? WHERE id = ?";
 }

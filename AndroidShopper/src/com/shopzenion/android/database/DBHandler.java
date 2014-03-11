@@ -1,4 +1,4 @@
-package com.shopzenion.database;
+package com.shopzenion.android.database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,18 +125,6 @@ public class DBHandler extends SQLiteOpenHelper {
 		return ret;
 	}
 
-	public int getDifferentQuantityCount(int shoppingListId) {
-		int ret = 1;
-
-		Cursor cursor = db.rawQuery(DBConstant.DIFFERENT_QUANTITY_COUNT,
-				new String[] { String.valueOf(shoppingListId) });
-
-		if (cursor.moveToFirst()) {
-			ret = cursor.getInt(2);
-		}
-		return ret;
-	}
-
 	public ShoppingListItem getShoppingListItem(int shoppingListItemId) {
 
 		Cursor cursor = db.rawQuery(DBConstant.SELECT_SHOPPING_LIST_ITEM,
@@ -178,6 +166,12 @@ public class DBHandler extends SQLiteOpenHelper {
 		} else {
 			// not a real move
 		}
+	}
+
+	public void setDescription(long shoppingListItemId, String newDescription) {
+		Logger.debug("setDescription");
+		Object[] bindArgs = { newDescription, shoppingListItemId };
+		db.execSQL(DBConstant.UPDATE_ITEM_NAME, bindArgs);
 	}
 
 	public void removeShoppingListItem(long shoppingListId) {
