@@ -45,17 +45,17 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="1dip"
+        android:layout_height="@dimen/separator_line_height"
         android:background="#000000" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="1dip"
+        android:layout_height="@dimen/separator_line_height"
         android:background="#b1c789" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="1dip"
+        android:layout_height="@dimen/separator_line_height"
         android:background="#000000" />
 
 </LinearLayout>
