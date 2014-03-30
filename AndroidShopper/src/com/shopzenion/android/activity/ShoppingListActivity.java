@@ -32,7 +32,7 @@ public class ShoppingListActivity extends ListActivity {
 
 		// TODO: remove this later
 		dbHandler.addDefaultShoppingList();
-		// dbHandler.addTestData(DBConstant.DEFAULT_SHOPPING_LIST_ID);
+		dbHandler.addTestData(DBConstant.DEFAULT_SHOPPING_LIST_ID);
 
 		List<ShoppingListItem> content = dbHandler
 				.getShoppingListItems(DBConstant.DEFAULT_SHOPPING_LIST_ID);

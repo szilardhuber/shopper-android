@@ -14,7 +14,7 @@
     <application
         android:name="ShopzenionApplication"
         android:allowBackup="true"
-        android:icon="@drawable/shopzenion" 
+        android:icon="@drawable/app_icon" 
         android:theme="@android:style/Theme.NoTitleBar">
         <activity
             android:name="com.shopzenion.android.activity.ShoppingListActivity"

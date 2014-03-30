@@ -3,6 +3,7 @@ package com.shopzenion.android.activity;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public final class ShoppingListAdapter extends BaseAdapter {
 	private DBHandler dbHandler;
 	private int shoppingListItem;
 	private GradientColor gradientColor;
+	private Typeface font;
 
 	public ShoppingListAdapter(Context context,
 			List<ShoppingListItem> listItems, DBHandler dbHandler,
@@ -38,6 +40,8 @@ public final class ShoppingListAdapter extends BaseAdapter {
 		this.gradientColor = new GradientColor(context.getResources().getColor(
 				R.color.background_start_color), context.getResources()
 				.getColor(R.color.background_end_color), listItems.size());
+		// font = Typeface
+		// .createFromAsset(context.getAssets(), "DidactGothic.ttf");
 	}
 
 	public int getCount() {
@@ -78,6 +82,8 @@ public final class ShoppingListAdapter extends BaseAdapter {
 
 		String name = currentItem.getProduct().getName();
 		holder.text.setText(name);
+		// holder.text.setTypeface(font);
+
 		makeItemEditable(holder.text, currentItem.getId());
 		return convertView;
 	}
