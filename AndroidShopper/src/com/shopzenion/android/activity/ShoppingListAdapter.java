@@ -40,6 +40,8 @@ public final class ShoppingListAdapter extends BaseAdapter {
 		this.gradientColor = new GradientColor(context.getResources().getColor(
 				R.color.background_start_color), context.getResources()
 				.getColor(R.color.background_end_color), listItems.size());
+		font = Typeface.createFromAsset(context.getAssets(),
+				"fonts/didactgothic.ttf");
 		// font = Typeface
 		// .createFromAsset(context.getAssets(), "DidactGothic.ttf");
 	}
@@ -82,7 +84,7 @@ public final class ShoppingListAdapter extends BaseAdapter {
 
 		String name = currentItem.getProduct().getName();
 		holder.text.setText(name);
-		// holder.text.setTypeface(font);
+		holder.text.setTypeface(font);
 
 		makeItemEditable(holder.text, currentItem.getId());
 		return convertView;
